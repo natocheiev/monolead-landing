@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="uk" data-root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UX-патерни · Monolead</title>
+  <link rel="stylesheet" href="../../_nav/nav.css">
+  <script src="../../_nav/tree.js"></script>
+  <script src="../../_nav/nav.js" defer></script>
+  <!-- Згенеровано з 06-patterns.md — джерело правок: .md -->
+  <style>
+    :root { color-scheme: light dark; --line: #ddd; --muted: #666; --soft: #f6f6f6; }
+    @media (prefers-color-scheme: dark) { :root { --line: #333; --muted: #999; --soft: #1c1c1c; } }
+    body { margin: 0; font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: Canvas; color: CanvasText; }
+    main { max-width: 1200px; padding: 32px; box-sizing: border-box; }
+    h1 { font-size: 28px; margin: 0 0 16px; }
+    h2 { font-size: 20px; margin: 36px 0 10px; padding-top: 12px; border-top: 1px solid var(--line); }
+    h3 { font-size: 16px; margin: 24px 0 8px; }
+    a { color: LinkText; }
+    blockquote { margin: 0 0 20px; padding: 8px 16px; border-left: 3px solid var(--line); color: var(--muted); background: var(--soft); }
+    blockquote p { margin: 4px 0; }
+    code { font-size: .9em; background: var(--soft); padding: 1px 4px; border-radius: 3px; }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+    .table-wrap { overflow-x: auto; margin: 12px 0 20px; border: 1px solid var(--line); border-radius: 6px; }
+    table { border-collapse: collapse; font-size: 13px; min-width: 100%; }
+    th, td { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--soft); position: sticky; top: 0; }
+    td:first-child, th:first-child { background: var(--soft); font-weight: 600; min-width: 140px; }
+    td { min-width: 180px; }
+    .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+    .shots a { display: block; text-decoration: none; color: inherit; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+    .shots img { display: block; width: 100%; height: 140px; object-fit: cover; object-position: top; }
+    .shots span { display: block; padding: 6px 8px; font-size: 12px; color: var(--muted); }
+    @media (max-width: 720px) { main { padding: 20px 16px; } }
+  </style>
+</head>
+<body>
+  <main>
+<h1>06 — UX-патерни для ключової задачі</h1>
+<blockquote>
+<p>Основа: бриф <a href="https://github.com/natocheiev/monolead-landing/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md</a>, розділ 3 «Мета і конверсія». Приклади взято з кроків <a href="./04-matrix.html">04-matrix.md</a> і <a href="./05-benchmark.html">05-benchmark.md</a>.</p>
+</blockquote>
+<h2>Ключова задача</h2>
+<p><strong>Арбітражник, вебмайстер чи рекламодавець має з лендінгу почати розмову з Monolead про співпрацю: написати в Telegram або залишити заявку, яка теж приходить у Telegram.</strong></p>
+<hr>
+<h2>П&#39;ять патернів</h2>
+<p>Патерни відрізняються тим, <strong>хто і коли починає розмову</strong> та <strong>що несе з собою людина</strong>: питання до живої людини, заявку в чергу, відповіді боту, вибраний офер чи готовий акаунт.</p>
+<h3>1. Пряма розмова з людиною (click-to-chat)</h3>
+<ul>
+<li><strong>Як працює:</strong> кнопка одразу відкриває чат у месенджері з конкретною людиною (<code>t.me/&lt;username&gt;</code>). Інколи текст першого повідомлення вже вписаний. Розмова синхронна, людина з людиною, сайт лише «відчиняє двері».</li>
+<li><strong>Де застосовується:</strong> LeadRock — 4 менеджери з Telegram-хендлами на лендінгу. Dr.Cash — окремі Telegram для вебів (<code>affhead</code>) і рекламодавців (<code>bizdev</code>). Click-to-chat у WhatsApp в e-commerce. [04-matrix: S leadrock-02, drcash-02]</li>
+<li><strong>Коли підходить:</strong><ul>
+<li>аудиторія живе в цьому месенджері;</li>
+<li>угоду вирішують індивідуальні умови;</li>
+<li>на тому боці є люди, які швидко відповідають;</li>
+<li>потрібен мінімум кроків (1 клік).</li>
+</ul>
+</li>
+<li><strong>Коли ламається:</strong><ul>
+<li>менеджер не відповідає: вночі, у вихідні, перевантажений. У відгуках Dr.Cash це головна скарга [04-matrix, вісь 4];</li>
+<li>самозванці пишуть від імені мережі. Тому Alfaleads і зробив Team check;</li>
+<li>після кліку зникає аналітика: невідомо, чи людина справді написала;</li>
+<li>людина ще не готова говорити і хоче спершу подивитися сама;</li>
+<li>один хендл на всіх стає вузьким місцем.</li>
+</ul>
+</li>
+</ul>
+<h3>2. Асинхронна заявка (лід-форма → відповідь команди)</h3>
+<ul>
+<li><strong>Як працює:</strong> коротка форма (контакт, хто ви, повідомлення) відправляється в чергу, і команда відповідає пізніше: дзвінком, листом або в месенджері. Ініціатива наступного кроку переходить до компанії.</li>
+<li><strong>Де застосовується:</strong> Admitad «Talk to Admitad Expert» → «Get my growth plan». Awin «Say hello». Форма LeadRock «We&#39;re in touch» (email / Telegram / WhatsApp + message). [04-matrix: S admitad-02, awin-04, leadrock-05]</li>
+<li><strong>Коли підходить:</strong><ul>
+<li>кваліфікований B2B-контакт (рекламодавець з продуктом);</li>
+<li>людина пише поза робочим часом;</li>
+<li>потрібно зібрати дані до розмови (GEO, вертикаль, обсяг);</li>
+<li>потрібна вимірювана конверсія (подія «форму надіслано»).</li>
+</ul>
+</li>
+<li><strong>Коли ламається:</strong><ul>
+<li>аудиторія звикла до миттєвої відповіді, а форма відчувається як «чорна скринька»;</li>
+<li>після «Send» людина не знає, хто, коли і де їй відповість (жоден з п&#39;яти конкурентів цього не показує, 04-matrix, вісь 4);</li>
+<li>забагато полів;</li>
+<li>спам і боти без захисту.</li>
+</ul>
+</li>
+</ul>
+<h3>3. Розмовний кваліфікатор (бот або квіз)</h3>
+<ul>
+<li><strong>Як працює:</strong> замість однієї форми — діалог з кількох коротких кроків («Хто ви?» → «Вертикаль?» → «GEO?» → «Джерело трафіку?» → «Обсяг?»). Наприкінці людину передають потрібному менеджеру або вона отримує персональну відповідь. Буває на сайті (квіз) або в месенджері (Telegram-бот з <code>?start=</code>).</li>
+<li><strong>Де застосовується:</strong> Awin «Tell us who you are» → «Choose your path». Покрокова реєстрація Alfaleads з окремими полями для ролі («Какие GEO вы планируете продвигать?»). Квізи в лідогенерації, онбординг-боти. [04-matrix: S awin-02, alfaleads-05, alfaleads-06]</li>
+<li><strong>Коли підходить:</strong><ul>
+<li>кілька різних аудиторій, яких треба розвести (у нас їх три);</li>
+<li>різні менеджери під різні ролі чи GEO;</li>
+<li>хочеться відповіді «під мій випадок» (К7 з 05-benchmark);</li>
+<li>бот у Telegram ще й передає контекст і рахується (<code>start</code>-параметр).</li>
+</ul>
+</li>
+<li><strong>Коли ламається:</strong><ul>
+<li>досвідчений баєр сприймає кроки як допит і хоче одразу людину;</li>
+<li>кожен зайвий крок знижує дохідність до кінця;</li>
+<li>бот відповідає шаблонно там, де потрібні переговори;</li>
+<li>потрібні розробка і підтримка сценаріїв.</li>
+</ul>
+</li>
+</ul>
+<h3>4. Вхід через продукт (вибери офер → дія з контекстом)</h3>
+<ul>
+<li><strong>Як працює:</strong> людина спершу вибирає, що їй цікаво (офер, GEO, ставку) у вітрині, і з картки натискає «Взяти офер». Розмова чи заявка стартує вже з контекстом (ID оферу, GEO). Товар продає себе, а контакт — це наслідок вибору.</li>
+<li><strong>Де застосовується:</strong> ClickBank «Get Affiliate Link» з картки. PartnerStack «Apply to program». OfferVault «Run Offer». Публічний каталог Dr.Cash. [05-benchmark: S clickbank-01, partnerstack-02, offervault-02, drcash-05]</li>
+<li><strong>Коли підходить:</strong><ul>
+<li>є реальні, свіжі й публічні дані оферів;</li>
+<li>аудиторія раціонально порівнює («де вища ставка й апрув»);</li>
+<li>головна цінність («топові офери з високим ROI») має бути видна до розмови. Саме цей вимір ринку найслабший (05-benchmark).</li>
+</ul>
+</li>
+<li><strong>Коли ламається:</strong><ul>
+<li>даних немає або вони застарілі. Порожня чи вигадана вітрина гірша, ніж її відсутність;</li>
+<li>ставки індивідуальні й приватні, тож публічна цифра вводить в оману;</li>
+<li>конкуренти парсять відкриту вітрину;</li>
+<li>потрібно регулярно оновлювати дані.</li>
+</ul>
+</li>
+</ul>
+<h3>5. Самообслуговування: акаунт спершу (self-serve signup)</h3>
+<ul>
+<li><strong>Як працює:</strong> головна кнопка — «Реєстрація». Людина створює акаунт, потрапляє в кабінет, сама бере офери, а менеджер підключається потім. Розмова не обов&#39;язкова.</li>
+<li><strong>Де застосовується:</strong> Dr.Cash «Join us 1min», LeadRock «Become a partner» → login, реєстрація Alfaleads, паблішери Admitad. Це патерн більшості ринку (04-matrix, патерн 1). [04-matrix: S drcash-03, leadrock-03, admitad-03]</li>
+<li><strong>Коли підходить:</strong><ul>
+<li>є платформа-кабінет з оферами, статистикою і виплатами;</li>
+<li>великий потік партнерів, якому не вистачить менеджерів;</li>
+<li>продукт можна взяти без переговорів.</li>
+</ul>
+</li>
+<li><strong>Коли ламається:</strong><ul>
+<li>кабінету немає;</li>
+<li>угода тримається на індивідуальних умовах і довірі;</li>
+<li>реєстрація «у порожнечу» без людини відлякує;</li>
+<li>пароль і email — зайвий бар&#39;єр для «просто спитати».</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>Що лягає на наш контекст</h2>
+<h3>Найкраще: <strong>1. Пряма розмова з людиною в Telegram</strong></h3>
+<ol>
+<li><strong>Так зафіксовано в брифі.</strong> «Головна цільова дія: написати компанії про співпрацю», «CTA: Написати в Telegram (основний)». Уся комунікація компанії вже в Telegram: <code>@Monolead_account</code>, канал <code>@monolead_cpa</code>, а заявки з форми теж ідуть у Telegram. Аудиторія арбітражників живе там само. [CLAUDE.md §1, §3]</li>
+<li><strong>Не потребує того, чого в нас немає.</strong> «Реєстрації та кабінету на сайті поки немає», стек — HTML + CSS + JS без бекенду, CMS не потрібна. Посилання <code>t.me</code> працює на статичному сайті без будь-якої інфраструктури. [CLAUDE.md §3, §7]</li>
+<li><strong>Наші переваги реалізуються саме через людину.</strong> «Підтримка 24/7», «індивідуальні умови», «Гарант на тестовий пролив» не можна натиснути, їх треба пообіцяти й підтвердити в розмові. Ринок навпаки ховає людину за реєстрацією (04-matrix, патерн 1). Живий контакт першим кліком — наша відмінність, а не копія. [CLAUDE.md §1]</li>
+</ol>
+<p><strong>Що треба додати, щоб патерн не зламався</strong> (з розділу «коли ламається»):</p>
+<ul>
+<li>окремі хендли або хоча б окремий вписаний текст для трьох аудиторій;</li>
+<li>обіцянка часу відповіді поруч із кнопкою;</li>
+<li>блок менеджерів з фото і перевіркою «чи це справді наш менеджер», як Team check;</li>
+<li>форма з брифу як запасний вихід поза робочим часом. Це патерн 2 у ролі допоміжного, а не головного;</li>
+<li>подія аналітики на клік по кнопці Telegram.</li>
+</ul>
+<h3>Другий, за умови: <strong>4. Вхід через продукт (вітрина оферів)</strong></h3>
+<p><strong>Умова:</strong> власник дає реальні дані оферів (ставка, апрув, GEO) і погоджується показувати їх публічно та оновлювати. Відповідати мають відкриті питання 1, 3 і 6 з CLAUDE.md.</p>
+<p><strong>Тоді:</strong></p>
+<ul>
+<li>вітрина закриває найслабший вимір ринку — доказовість оферів (05-benchmark);</li>
+<li>патерн 1 стає кінцем шляху: кнопка «Взяти в Telegram» на кожній картці з уже вписаним ID оферу.</li>
+</ul>
+<p><strong>Без даних</strong> вітрина порушує правило брифу «ніяких вигаданих цифр». Тоді патерн не вмикаємо.</p>
+<h3>Не підходить: <strong>5. Самообслуговування (акаунт спершу)</strong></h3>
+<ul>
+<li><strong>Головна причина:</strong> у брифу прямо сказано, що кабінету на сайті поки немає, тож реєстрація вела б у порожнечу.</li>
+<li><strong>Відмінність:</strong> навіть з кабінетом це найпоширеніший патерн ринку (Dr.Cash, LeadRock, Alfaleads, Admitad), і він ховає людину. Ми б втратили відмінність «живий контакт першим кліком».</li>
+<li><strong>Зайвий бар&#39;єр:</strong> пароль і email між відвідувачем і простим «спитати про умови».</li>
+</ul>
+<hr>
+<h3>Відкрите для перевірки</h3>
+<ul>
+<li>Чи працює передзаповнений текст (<code>?text=</code>) у посиланні на <strong>особистий</strong> Telegram-акаунт у всіх клієнтах (iOS, Android, Desktop, Web). Для ботів контекст надійно передається через <code>?start=</code>.</li>
+<li>Скільки менеджерів і в які години реально відповідають. Від цього залежить, що саме обіцяємо біля кнопки.</li>
+</ul>
+
+
+    <p style="margin-top:40px;color:var(--muted);font-size:13px">Джерело: <a href="https://github.com/natocheiev/monolead-landing/blob/main/research/notes/06-patterns.md" target="_blank" rel="noopener">research/notes/06-patterns.md</a></p>
+  </main>
+</body>
+</html>

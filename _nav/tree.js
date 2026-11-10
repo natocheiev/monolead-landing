@@ -12,10 +12,18 @@
 window.NAV_TREE = [
   { title: "Старт", path: "index.html" },
   {
-    branch: "Дослідження",
+    branch: "Ресерч",
     pages: [
-      { title: "Конкуренти", path: "research/notes/03-competitors.html" },
-      { title: "Матриця", path: "research/notes/04-matrix.html" }
+      {
+        title: "Ресерч",
+        path: "research/research.html",
+        children: [
+          { title: "Конкуренти", path: "research/notes/03-competitors.html" },
+          { title: "Матриця", path: "research/notes/04-matrix.html" },
+          { title: "Бенчмарк", path: "research/notes/05-benchmark.html" },
+          { title: "UX-патерни", path: "research/notes/06-patterns.html" }
+        ]
+      }
     ]
   }
 ];

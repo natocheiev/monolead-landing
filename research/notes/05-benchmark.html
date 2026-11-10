@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="uk" data-root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Бенчмарк · Monolead</title>
+  <link rel="stylesheet" href="../../_nav/nav.css">
+  <script src="../../_nav/tree.js"></script>
+  <script src="../../_nav/nav.js" defer></script>
+  <!-- Згенеровано з 05-benchmark.md — джерело правок: .md -->
+  <style>
+    :root { color-scheme: light dark; --line: #ddd; --muted: #666; --soft: #f6f6f6; }
+    @media (prefers-color-scheme: dark) { :root { --line: #333; --muted: #999; --soft: #1c1c1c; } }
+    body { margin: 0; font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: Canvas; color: CanvasText; }
+    main { max-width: 1200px; padding: 32px; box-sizing: border-box; }
+    h1 { font-size: 28px; margin: 0 0 16px; }
+    h2 { font-size: 20px; margin: 36px 0 10px; padding-top: 12px; border-top: 1px solid var(--line); }
+    h3 { font-size: 16px; margin: 24px 0 8px; }
+    a { color: LinkText; }
+    blockquote { margin: 0 0 20px; padding: 8px 16px; border-left: 3px solid var(--line); color: var(--muted); background: var(--soft); }
+    blockquote p { margin: 4px 0; }
+    code { font-size: .9em; background: var(--soft); padding: 1px 4px; border-radius: 3px; }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+    .table-wrap { overflow-x: auto; margin: 12px 0 20px; border: 1px solid var(--line); border-radius: 6px; }
+    table { border-collapse: collapse; font-size: 13px; min-width: 100%; }
+    th, td { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--soft); position: sticky; top: 0; }
+    td:first-child, th:first-child { background: var(--soft); font-weight: 600; min-width: 140px; }
+    td { min-width: 180px; }
+    .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+    .shots a { display: block; text-decoration: none; color: inherit; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+    .shots img { display: block; width: 100%; height: 140px; object-fit: cover; object-position: top; }
+    .shots span { display: block; padding: 6px 8px; font-size: 12px; color: var(--muted); }
+    @media (max-width: 720px) { main { padding: 20px 16px; } }
+  </style>
+</head>
+<body>
+  <main>
+<h1>05 — Бенчмарк найслабшого виміру</h1>
+<blockquote>
+<p>Основа: матриця <a href="./04-matrix.html">04-matrix.md</a>. Зібрано <strong>2026-11-10</strong>: Playwright (Chrome, 1440×900), публічні сторінки без логіну, форми не надсилали.
+Позначення джерел: <code>[S: файл]</code> — скрін у <code>research/screens/</code>; <code>[W: URL]</code> — публічна сторінка (текст DOM). Цифри наведено так, як їх показують самі продукти.</p>
+</blockquote>
+<h2>Вимір: «Доказовість оферів до першого контакту»</h2>
+<p>У матриці це <strong>вісь 3: «Топові офери з високим ROI і максимальним конвертом»: чи видно одразу</strong>. Головне для аудиторії з брифу тут найслабше: з п&#39;яти конкурентів офери зі ставками й апрувом без логіну показує лише Dr.Cash. LeadRock дає тільки «Payout up to $X», а Alfaleads, Admitad і Awin не показують оферів зовсім.</p>
+<p><strong>Чого не бачить людина:</strong> які саме офери, з якою ставкою, апрувом і на які GEO вона отримає, поки не зареєструється або не напише менеджеру. Тому обіцянку «топові офери з високим ROI і максимальним конвертом» неможливо перевірити до першого контакту.</p>
+<hr>
+<h2>1. Критерії оцінки (1–5)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Критерій</th>
+<th>1 — погано</th>
+<th>3 — частково</th>
+<th>5 — еталон</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>К1</td>
+<td><strong>Відкритість без логіну і контакту</strong></td>
+<td>Нічого не видно, «напишіть менеджеру»</td>
+<td>Вибірка або картинка, деталі закриті</td>
+<td>Повний каталог чи калькулятор відкритий кожному</td>
+</tr>
+<tr>
+<td>К2</td>
+<td><strong>Ключові метрики на одиниці</strong> (ставка, апрув/конверсія, GEO, модель)</td>
+<td>Метрик немає</td>
+<td>Одна метрика (наприклад, лише ставка)</td>
+<td>Усі метрики, від яких залежить рішення, на картці</td>
+</tr>
+<tr>
+<td>К3</td>
+<td><strong>Доказовість чисел</strong> (період, джерело, методика)</td>
+<td>Голі обіцянки («високий ROI»)</td>
+<td>Цифри без пояснення, звідки вони</td>
+<td>Кожна метрика має період і пояснення, як рахується</td>
+</tr>
+<tr>
+<td>К4</td>
+<td><strong>Свіжість</strong> (дата оновлення, live, статус)</td>
+<td>Невідомо, коли оновлювали</td>
+<td>Є статус або «нове», але без дати</td>
+<td>Live-дані або явна дата і статус</td>
+</tr>
+<tr>
+<td>К5</td>
+<td><strong>Порівнюваність</strong> (фільтри, сортування, порівняння з альтернативами)</td>
+<td>Нічого</td>
+<td>Фільтр за 1–2 полями</td>
+<td>Фільтри + сортування за метриками + порівняння з альтернативами</td>
+</tr>
+<tr>
+<td>К6</td>
+<td><strong>Чесність обмежень</strong> (холд, заборони, капи, умови виплат)</td>
+<td>Лише плюси</td>
+<td>Частина умов, десь глибоко</td>
+<td>Обмеження явно на картці, поруч зі ставкою</td>
+</tr>
+<tr>
+<td>К7</td>
+<td><strong>Відповідь під мій випадок</strong> (моє GEO, обсяг, джерело)</td>
+<td>Загальні слова</td>
+<td>Фільтр звужує список</td>
+<td>Ввів свої дані — отримав конкретне число</td>
+</tr>
+<tr>
+<td>К8</td>
+<td><strong>Міст до дії з контексту</strong></td>
+<td>Загальна кнопка «Реєстрація»</td>
+<td>Кнопка є, але контекст (який офер) губиться</td>
+<td>Дія прямо з картки, контекст переданий далі</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>2. Продукти-бенчмарки</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Продукт</th>
+<th>Ніша</th>
+<th>Чому він тут</th>
+<th>Джерела</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Wise</strong> (калькулятор і Compare)</td>
+<td>Грошові перекази</td>
+<td>Еталон прозорості «що я отримаю». Live-курс, комісія окремим рядком, «Гарантується на 52 год», «Одержувачу надійде», час надходження. Порівняння з Western Union, банками і PayPal. Посилання «Як ми збираємо ці дані?». Сторінка українською для UA-локалі.</td>
+<td>[S: <a href="../screens/wise-01-calculator.png">wise-01</a>, <a href="../screens/wise-02-compare.png">wise-02</a>] [W: wise.com/gb/send-money, wise.com/gb/compare]</td>
+</tr>
+<tr>
+<td><strong>ClickBank Marketplace</strong></td>
+<td>Афіліат-маркетплейс (digital/health)</td>
+<td>Публічний каталог (1204 офери в Top Offers), на кожній картці Avg $/Conv (Total / Initial / Future), CVR, EPC, Gravity, Rank. У FAQ розписано кожну метрику з періодом (EPC і CVR — 30 днів, $/Conv і Gravity — 90 днів, Return rate — 120 днів). З картки: «Get Affiliate Link», контакт продавця.</td>
+<td>[S: <a href="../screens/clickbank-01-top-offers.png">clickbank-01</a>] [W: accounts.clickbank.com/marketplace.htm, FAQ на сторінці]</td>
+</tr>
+<tr>
+<td><strong>Dr.Cash — каталог і картка оферу</strong></td>
+<td>Nutra CPA (наш ринок)</td>
+<td>Найкращий у нашій ніші. Публічна картка оферу: Payout 23.00 USD, Price, Model, Approve 22.64%, GEO, статус ACTIVE, «Top promo» з конверсією лендінгу. Правила й заборони (без лікарів і зірок), <strong>холд 4 дні</strong>, графік колцентру, «Delivery: only PL».</td>
+<td>[S: <a href="../screens/drcash-04-offers.png">drcash-04</a>, <a href="../screens/drcash-05-offer-detail.png">drcash-05</a>] [W: dr.cash/offers/28303]</td>
+</tr>
+<tr>
+<td><strong>OfferVault</strong></td>
+<td>Агрегатор CPA-оферів</td>
+<td>Пошук по оферах усіх мереж: ставка, країна, мережа, фільтри за мережами, категоріями й країнами, сортування за payout. Картка показує <strong>«Last Updated: Nov 10, 2026»</strong>, прев&#39;ю лендінгу, «Run Offer» і схожі офери.</td>
+<td>[S: <a href="../screens/offervault-01-offers.png">offervault-01</a>, <a href="../screens/offervault-02-offer-detail.png">offervault-02</a>] [W: offervault.com, /offer/…/femomaxx-low-price]</td>
+</tr>
+<tr>
+<td><strong>PartnerStack Marketplace</strong></td>
+<td>B2B SaaS партнерки</td>
+<td>Публічна сторінка програми: «Offer structure» ($100 за платного клієнта, $5 за акаунт), «How long do commissions last», «When do I get paid» (наступного місяця, 13-го), «How are commissions paid» (PayPal / Stripe), ToS. Кнопка «Apply to program» прямо на сторінці.</td>
+<td>[S: <a href="../screens/partnerstack-01-marketplace.png">partnerstack-01</a>, <a href="../screens/partnerstack-02-program.png">partnerstack-02</a>] [W: market.partnerstack.com/page/brevo]</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>3. Оцінка</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Критерій</th>
+<th>Wise</th>
+<th>ClickBank</th>
+<th>Dr.Cash</th>
+<th>OfferVault</th>
+<th>PartnerStack</th>
+<th><em>Для контрасту: типовий хард-конкурент (LeadRock)</em></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>К1 Відкритість</td>
+<td><strong>5</strong>: калькулятор і Compare без реєстрації [S: wise-01, wise-02]</td>
+<td><strong>5</strong>: каталог і метрики без логіну [S: clickbank-01]</td>
+<td><strong>5</strong>: каталог і картка оферу відкриті [S: drcash-05]</td>
+<td><strong>5</strong>: каталог і картки відкриті [S: offervault-01]</td>
+<td><strong>5</strong>: каталог і сторінки програм відкриті [S: partnerstack-02]</td>
+<td><em>2</em>: картки «Payout up to $X», каталог за логіном [S: leadrock-04]</td>
+</tr>
+<tr>
+<td>К2 Метрики</td>
+<td><strong>5</strong>: курс, комісія, сума одержувачу, час [S: wise-01]</td>
+<td><strong>5</strong>: $/Conv ×3, CVR, EPC, Gravity, Rank [S: clickbank-01]</td>
+<td><strong>5</strong>: Payout, Price, Model, Approve, GEO, CR лендінгу [S: drcash-05]</td>
+<td><strong>3</strong>: ставка, країна, мережа, без конверсії [S: offervault-02]</td>
+<td><strong>3</strong>: лише структура комісії [S: partnerstack-02]</td>
+<td><em>2</em>: лише «виплата до» і ніша</td>
+</tr>
+<tr>
+<td>К3 Доказовість</td>
+<td><strong>5</strong>: «Як ми збираємо ці дані?», mid-market курс пояснено [W: wise.com/gb/compare]</td>
+<td><strong>5</strong>: FAQ з визначенням і періодом кожної метрики [W: marketplace FAQ]</td>
+<td><strong>2</strong>: Approve % без періоду і методики [S: drcash-05]</td>
+<td><strong>2</strong>: звідки ставки, не пояснено [S: offervault-02]</td>
+<td><strong>2</strong>: умови є, даних про результати немає</td>
+<td><em>1</em>: «maximum Appruval» без цифр</td>
+</tr>
+<tr>
+<td>К4 Свіжість</td>
+<td><strong>5</strong>: live-курс, «Гарантується на 52 год» [S: wise-01]</td>
+<td><strong>4</strong>: ковзні вікна 30/90 днів, «New Offers», але без дати [W: FAQ]</td>
+<td><strong>3</strong>: статус ACTIVE і Rank, без дати [S: drcash-05]</td>
+<td><strong>4</strong>: «Last Updated» на картці [S: offervault-02]</td>
+<td><strong>2</strong>: лише «Recently added / Trending»</td>
+<td><em>1</em>: невідомо</td>
+</tr>
+<tr>
+<td>К5 Порівнюваність</td>
+<td><strong>5</strong>: таблиця проти WU, банків і PayPal [S: wise-02]</td>
+<td><strong>5</strong>: фільтри й сортування за кожною метрикою [S: clickbank-01]</td>
+<td><strong>4</strong>: фільтри (країна, категорія, модель), добірки, Rank [S: drcash-04]</td>
+<td><strong>4</strong>: фільтри, сортування за payout, схожі офери [S: offervault-01]</td>
+<td><strong>3</strong>: категорії, екосистеми, пошук</td>
+<td><em>2</em>: фільтр за нішею</td>
+</tr>
+<tr>
+<td>К6 Чесність обмежень</td>
+<td><strong>4</strong>: «діє при оплаті банківським переказом», комісія окремо, знижка за обсяг пояснена [S: wise-01, wise-02]</td>
+<td><strong>3</strong>: «Approval Required», Return rate, попередження, що Gravity = конкуренція; опис від продавця рекламний [S: clickbank-01] [W: FAQ]</td>
+<td><strong>5</strong>: заборони, холд 4 дні, доставка, колцентр — на картці [W: dr.cash/offers/28303]</td>
+<td><strong>1</strong>: умов немає</td>
+<td><strong>4</strong>: коли й як платять, тривалість комісії, ToS [S: partnerstack-02]</td>
+<td><em>1</em>: умови тільки в FAQ</td>
+</tr>
+<tr>
+<td>К7 Під мій випадок</td>
+<td><strong>5</strong>: ввів суму й валюти — отримав точне число [S: wise-01]</td>
+<td><strong>3</strong>: фільтри звужують, але калькулятора немає</td>
+<td><strong>3</strong>: фільтр за країною</td>
+<td><strong>3</strong>: фільтр за країною</td>
+<td><strong>2</strong>: категорії</td>
+<td><em>1</em></td>
+</tr>
+<tr>
+<td>К8 Міст до дії</td>
+<td><strong>5</strong>: «Надіслати гроші» з калькулятора, сума зберігається [S: wise-01]</td>
+<td><strong>5</strong>: «Get Affiliate Link», контакт продавця на картці [S: clickbank-01]</td>
+<td><strong>2</strong>: на картці дії немає, лише загальне «Join us» [S: drcash-05]</td>
+<td><strong>4</strong>: «Run Offer» з картки → мережа [S: offervault-02]</td>
+<td><strong>5</strong>: «Apply to program» на сторінці [S: partnerstack-02]</td>
+<td><em>2</em>: «Become a partner» → логін [S: leadrock-01]</td>
+</tr>
+<tr>
+<td><strong>Сума (з 40)</strong></td>
+<td><strong>39</strong></td>
+<td><strong>35</strong></td>
+<td><strong>29</strong></td>
+<td><strong>26</strong></td>
+<td><strong>26</strong></td>
+<td><em>12</em></td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>Що переносимо в MVP</h2>
+<ol>
+<li><strong>Вітрина «топ-оферів» з чесною карткою</strong> (Dr.Cash + ClickBank + OfferVault).<ul>
+<li><strong>Картка оферу:</strong> ставка, апрув, GEO, модель (CPA/COD), статус «активний» і <strong>«Оновлено: дата»</strong>.</li>
+<li><strong>Пояснення метрик:</strong> у кожної є підказка «що це і за який період», як у FAQ ClickBank.</li>
+<li><strong>Дані:</strong> статичний <code>data/offers.json</code>, що відповідає брифу (без CMS і бекенду). Оновлюється разом із датою.</li>
+<li><strong>Що це закриває:</strong> К1, К2, К3, К4.</li>
+</ul>
+</li>
+<li><strong>Обмеження і гарантії на картці, а не в FAQ</strong> (Dr.Cash + PartnerStack).<ul>
+<li><strong>На картці:</strong> холд, заборонені підходи, кап, коли й чим платимо.</li>
+<li><strong>«Гарант на тестовий пролив»:</strong> окремим рядком із зрозумілою механікою.</li>
+<li><strong>Чому:</strong> ринок показує лише плюси, тому прямо названі умови самі стають доказом.</li>
+<li><strong>Що це закриває:</strong> К6, і посилює головне USP.</li>
+</ul>
+</li>
+<li><strong>Дія з картки без втрати контексту</strong> (Wise + ClickBank + PartnerStack).<ul>
+<li><strong>Кнопка на кожному офері:</strong> «Взяти в Telegram» відкриває чат менеджера з уже вписаним повідомленням (ID оферу + GEO).</li>
+<li><strong>Форма заявки:</strong> підставляє обраний офер автоматично.</li>
+<li><strong>Чому:</strong> людина не пояснює вдруге, що хоче, а менеджер одразу бачить запит.</li>
+<li><strong>Що це закриває:</strong> К8. Наша головна дія «написати компанії» стає продовженням вибору оферу.</li>
+<li><strong>Що перевірити:</strong> чи підтримують поточні клієнти Telegram передзаповнений текст у посиланні на особистий акаунт.</li>
+</ul>
+</li>
+</ol>
+<h2>Що не спрацює</h2>
+<p><strong>Таблиця «ми проти конкурентів» у стилі Wise Compare («наша ставка вища, ніж у X»).</strong></p>
+<ul>
+<li><strong>Звідки беруться дані у Wise:</strong> курси конкурентів публічні, їх можна перевірити, і Wise пояснює методику збору.</li>
+<li><strong>Чому в CPA так не вийде:</strong><ul>
+<li>ставки конкурентів закриті логіном (матриця 04, вісь 3);</li>
+<li>ставки щодня змінюються за GEO і капами;</li>
+<li>топ-вебам дають приватні бампи, яких публічно не видно.</li>
+</ul>
+</li>
+<li><strong>Наслідки:</strong><ul>
+<li>таблиця застаріє за кілька днів;</li>
+<li>її неможливо довести, і вона спрацює проти К3 «доказовість»;</li>
+<li>у тісному ринку, де всі знають усіх, вона ризикує репутацією.</li>
+</ul>
+</li>
+<li><strong>Що переносимо замість неї:</strong> порівнюваність усередині власної вітрини (фільтри й сортування за GEO, ставкою, апрувом), а не зовнішнє порівняння.</li>
+</ul>
+
+<h2 id="screens">Скріни</h2>
+<h3>ClickBank</h3>
+<div class="shots"><a href="../screens/clickbank-01-top-offers.png" target="_blank"><img src="../screens/clickbank-01-top-offers.png" alt="clickbank-01-top-offers.png" loading="lazy"><span>clickbank-01-top-offers</span></a></div>
+<h3>Dr.Cash</h3>
+<div class="shots"><a href="../screens/drcash-04-offers.png" target="_blank"><img src="../screens/drcash-04-offers.png" alt="drcash-04-offers.png" loading="lazy"><span>drcash-04-offers</span></a><a href="../screens/drcash-05-offer-detail.png" target="_blank"><img src="../screens/drcash-05-offer-detail.png" alt="drcash-05-offer-detail.png" loading="lazy"><span>drcash-05-offer-detail</span></a></div>
+<h3>OfferVault</h3>
+<div class="shots"><a href="../screens/offervault-01-offers.png" target="_blank"><img src="../screens/offervault-01-offers.png" alt="offervault-01-offers.png" loading="lazy"><span>offervault-01-offers</span></a><a href="../screens/offervault-02-offer-detail.png" target="_blank"><img src="../screens/offervault-02-offer-detail.png" alt="offervault-02-offer-detail.png" loading="lazy"><span>offervault-02-offer-detail</span></a></div>
+<h3>PartnerStack</h3>
+<div class="shots"><a href="../screens/partnerstack-01-marketplace.png" target="_blank"><img src="../screens/partnerstack-01-marketplace.png" alt="partnerstack-01-marketplace.png" loading="lazy"><span>partnerstack-01-marketplace</span></a><a href="../screens/partnerstack-02-program.png" target="_blank"><img src="../screens/partnerstack-02-program.png" alt="partnerstack-02-program.png" loading="lazy"><span>partnerstack-02-program</span></a></div>
+<h3>Wise</h3>
+<div class="shots"><a href="../screens/wise-01-calculator.png" target="_blank"><img src="../screens/wise-01-calculator.png" alt="wise-01-calculator.png" loading="lazy"><span>wise-01-calculator</span></a><a href="../screens/wise-02-compare.png" target="_blank"><img src="../screens/wise-02-compare.png" alt="wise-02-compare.png" loading="lazy"><span>wise-02-compare</span></a></div>
+    <p style="margin-top:40px;color:var(--muted);font-size:13px">Джерело: <a href="https://github.com/natocheiev/monolead-landing/blob/main/research/notes/05-benchmark.md" target="_blank" rel="noopener">research/notes/05-benchmark.md</a></p>
+  </main>
+</body>
+</html>

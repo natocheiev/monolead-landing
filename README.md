@@ -2,6 +2,8 @@
 
 **Репо:** https://github.com/natocheiev/monolead-landing · **Сайт (GitHub Pages):** https://natocheiev.github.io/monolead-landing/
 
+**Ресерч:** [research/research.md](./research/research.md) (текст) · [research/research.html](./research/research.html) ([на Pages](https://natocheiev.github.io/monolead-landing/research/research.html))
+
 Новий SEO-орієнтований лендінг для **Monolead**. Це CPA-мережа з вертикалями Nutra та E-com, яка працює з GEO HU, SK, RO, PL та CZ.
 
 - **Аудиторія:** арбітражники та медіабаєри, вебмайстри, рекламодавці.
@@ -23,6 +25,9 @@
 | [_nav/tree.js](./_nav/tree.js) | Дерево сторінок, реєстр сторінок для навігатора |
 | [_nav/nav.js](./_nav/nav.js) · [_nav/nav.css](./_nav/nav.css) | Скрипт і стилі бокового меню |
 | [research/](./research/) | Дослідження |
+| [research/research.md](./research/research.md) · [на Pages](https://natocheiev.github.io/monolead-landing/research/research.html) | **Підсумок досліджень** (кроки 03–06): конкуренти, бенчмарк, патерн, висновки з гіпотезами |
 | [research/screens/](./research/screens/) | Скріни публічних сторінок конкурентів (Playwright, 1440×900): `<компанія>-NN-<що>.png` |
 | [research/notes/03-competitors.md](./research/notes/03-competitors.md) · [на Pages](https://natocheiev.github.io/monolead-landing/research/notes/03-competitors.html) | Конкуренти: хард / софт / аспіраційні, що вивчити, що відкрито без логіну |
 | [research/notes/04-matrix.md](./research/notes/04-matrix.md) · [на Pages](https://natocheiev.github.io/monolead-landing/research/notes/04-matrix.html) | Матриця 5 конкурентів за осями продукту + патерни, відмінності, питання до PM, галерея скрінів |
+| [research/notes/05-benchmark.md](./research/notes/05-benchmark.md) · [на Pages](https://natocheiev.github.io/monolead-landing/research/notes/05-benchmark.html) | Бенчмарк найслабшого виміру («доказовість оферів до першого контакту»): критерії, 5 еталонів, оцінка, що переносимо в MVP |
+| [research/notes/06-patterns.md](./research/notes/06-patterns.md) · [на Pages](https://natocheiev.github.io/monolead-landing/research/notes/06-patterns.html) | 5 UX-патернів для ключової задачі «написати про співпрацю»: найкращий, другий за умови, непридатний |
