@@ -24,5 +24,5 @@
 | [_nav/nav.js](./_nav/nav.js) · [_nav/nav.css](./_nav/nav.css) | Скрипт і стилі бокового меню |
 | [research/](./research/) | Дослідження |
 | [research/screens/](./research/screens/) | Скріни публічних сторінок конкурентів (Playwright, 1440×900): `<компанія>-NN-<що>.png` |
-| [research/notes/03-competitors.md](./research/notes/03-competitors.md) | Конкуренти: хард / софт / аспіраційні, що вивчити, що відкрито без логіну |
-| [research/notes/04-matrix.md](./research/notes/04-matrix.md) | Матриця 5 конкурентів за осями продукту + патерни, відмінності, питання до PM |
+| [research/notes/03-competitors.md](./research/notes/03-competitors.md) · [на Pages](https://natocheiev.github.io/monolead-landing/research/notes/03-competitors.html) | Конкуренти: хард / софт / аспіраційні, що вивчити, що відкрито без логіну |
+| [research/notes/04-matrix.md](./research/notes/04-matrix.md) · [на Pages](https://natocheiev.github.io/monolead-landing/research/notes/04-matrix.html) | Матриця 5 конкурентів за осями продукту + патерни, відмінності, питання до PM, галерея скрінів |

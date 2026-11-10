@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="uk" data-root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Матриця конкурентів · Monolead</title>
+  <link rel="stylesheet" href="../../_nav/nav.css">
+  <script src="../../_nav/tree.js"></script>
+  <script src="../../_nav/nav.js" defer></script>
+  <!-- Згенеровано з 04-matrix.md — джерело правок: .md -->
+  <style>
+    :root { color-scheme: light dark; --line: #ddd; --muted: #666; --soft: #f6f6f6; }
+    @media (prefers-color-scheme: dark) { :root { --line: #333; --muted: #999; --soft: #1c1c1c; } }
+    body { margin: 0; font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: Canvas; color: CanvasText; }
+    main { max-width: 1200px; padding: 32px; box-sizing: border-box; }
+    h1 { font-size: 28px; margin: 0 0 16px; }
+    h2 { font-size: 20px; margin: 36px 0 10px; padding-top: 12px; border-top: 1px solid var(--line); }
+    h3 { font-size: 16px; margin: 24px 0 8px; }
+    a { color: LinkText; }
+    blockquote { margin: 0 0 20px; padding: 8px 16px; border-left: 3px solid var(--line); color: var(--muted); background: var(--soft); }
+    blockquote p { margin: 4px 0; }
+    code { font-size: .9em; background: var(--soft); padding: 1px 4px; border-radius: 3px; }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+    .table-wrap { overflow-x: auto; margin: 12px 0 20px; border: 1px solid var(--line); border-radius: 6px; }
+    table { border-collapse: collapse; font-size: 13px; min-width: 100%; }
+    th, td { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+    th { background: var(--soft); position: sticky; top: 0; }
+    td:first-child, th:first-child { background: var(--soft); font-weight: 600; min-width: 140px; }
+    td { min-width: 180px; }
+    .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+    .shots a { display: block; text-decoration: none; color: inherit; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+    .shots img { display: block; width: 100%; height: 140px; object-fit: cover; object-position: top; }
+    .shots span { display: block; padding: 6px 8px; font-size: 12px; color: var(--muted); }
+    @media (max-width: 720px) { main { padding: 20px 16px; } }
+  </style>
+</head>
+<body>
+  <main>
+<h1>04 — Матриця конкурентів</h1>
+<blockquote>
+<p>Основа: список з <a href="./03-competitors.html">03-competitors.md</a>. Нового пошуку не робили.
+Зібрано <strong>2026-11-10</strong>: Playwright (Chrome, вікно 1440×900, локаль браузера <code>uk-UA</code>, як у нашого UA-відвідувача), публічні сторінки, web fetch.
+Кабінети за логіном не відкривали. Форми не надсилали. На банерах cookie обирали відмову від необов&#39;язкових (у Admitad банер лишився на скріні, згоду не надавали).
+Скріни власного акаунта: теки <code>research/screens/own/</code> немає, тому цей пункт пропущено.</p>
+</blockquote>
+<h2>Кого взяли і чому</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Компанія</th>
+<th>Група</th>
+<th>Чому саме вона</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>Dr.Cash</strong></td>
+<td>ХАРД</td>
+<td>Найближчий конкурент за вертикаллю (nutra/COD) і нашими GEO (PL, RO, HU, CZ, SK є у фільтрі каталогу). Єдиний, хто показує офери зі ставками без логіну.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>LeadRock</strong></td>
+<td>ХАРД</td>
+<td>Найближчий до нашої цільової дії: менеджери з Telegram-хендлами і форма заявки прямо на лендінгу. Темний неоновий стиль, як у нашому напрямку дизайну.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Alfaleads</strong></td>
+<td>СОФТ</td>
+<td>Інша вертикаль (iGaming), та сама задача. Найчіткіший поділ «аффіліати / рекламодавці», окремі форми для кожного й Team check проти шахраїв у Telegram.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Admitad</strong></td>
+<td>СОФТ</td>
+<td>Покриває нашу другу вертикаль, E-com. Має форму заявки для рекламодавця і окремий шлях для паблішера, частково локалізований під UA.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Awin</strong></td>
+<td>АСПІРАЦІЙНИЙ</td>
+<td>Еталон того, як розвести аудиторії («Tell us who you are» → 4 доріжки) і як побудувати контактну форму.</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>Позначення джерел</h2>
+<ul>
+<li><code>[S: файл]</code> — скрін у <a href="#screens"><code>research/screens/</code></a>, знятий Playwright.</li>
+<li><code>[W: URL]</code> — публічна сторінка (web fetch або текст DOM, витягнутий Playwright).</li>
+<li><code>[R: …]</code> — відгуки, магазини застосунків, сторонні джерела.</li>
+<li><strong>«доступ обмежений»</strong> — екран існує, але без логіну його не видно.</li>
+</ul>
+<hr>
+<h2>Матриця</h2>
+<p>Осі під наш продукт:</p>
+<ul>
+<li><strong>Вісь 1 — Перший екран:</strong> що бачить відвідувач без прокрутки.</li>
+<li><strong>Вісь 2 — «Написати компанії про співпрацю»:</strong> ключова задача з брифу (Telegram або форма заявки). Як вона проходить.</li>
+<li><strong>Вісь 3 — «Топові офери з високим ROI і максимальним конвертом»:</strong> головне для аудиторії, формулювання з брифу. Чи видно це одразу.</li>
+<li><strong>Вісь 4 — Як задача завершується:</strong> що відбувається в кінці шляху.</li>
+<li><strong>Вісь 5 — Мова інтерфейсу:</strong> що отримує відвідувач з українською локаллю.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Вісь</th>
+<th>Dr.Cash (ХАРД)</th>
+<th>LeadRock (ХАРД)</th>
+<th>Alfaleads (СОФТ)</th>
+<th>Admitad (СОФТ)</th>
+<th>Awin (АСПІР.)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>1. Перший екран</strong></td>
+<td>Заголовок «Nutra. Worldwide.», одне речення-пояснення, кнопки «Join us 1min» і «Research offer». Праворуч мокап дашборду з рейтингом оферів, апрувом і ставками. Меню вже розділяє Affiliates / Advertisers. [S: <a href="../screens/drcash-01-first-screen.png">drcash-01</a>]</td>
+<td>Чорний фон, неон, мармурова статуя з ноутбуком. Заголовок «Nutra CPA affiliate network LeadRock», підзаголовок «Your benefit is a priority», одна кнопка «Become a partner». Цифр і оферів немає. [S: <a href="../screens/leadrock-01-first-screen.png">leadrock-01</a>]</td>
+<td>Брутальна велика типографіка «МЕЖДУНАРОДНАЯ ПАРТНЕРСКАЯ СЕТЬ В iGAMING» на рожевому 3D-фоні. Дві кнопки-ролі «Аффилиаты / Рекламодатели», «Регистрация» в шапці, соцмережі. Банер cookie. [S: <a href="../screens/alfaleads-01-first-screen.png">alfaleads-01</a>]</td>
+<td>Промо-банер Black Friday. Заголовок «Grow revenue through partnerships – for brands and publishers», логотипи брендів (Nike, Samsung, Revolut…). Дві кнопки «Start as Advertiser / Start as Publisher», рядок цифр «2000+ advertisers · 300,000+ publishers · 50+ countries». Банер cookie займає ліву третину. [S: <a href="../screens/admitad-01-first-screen.png">admitad-01</a>]</td>
+<td>Смуга вибору регіону, фото людини. Заголовок «Your growth, your way.», цифри «30K+ brands, 1M+ partners». У хіро немає кнопки, «Get started» лише в шапці. Нижче починається блок «Tell us who you are». [S: <a href="../screens/awin-01-first-screen.png">awin-01</a>]</td>
+</tr>
+<tr>
+<td><strong>2. «Написати компанії про співпрацю»</strong></td>
+<td>Окремої кнопки «написати» на першому екрані немає. Контакт «Have questions? Ask» (іконки Telegram / email / Skype) лежить у блоці Affiliates нижче першого екрана. Для веба і для рекламодавця різні Telegram (<code>affhead_drcash</code> / <code>bizdev_dr_cash</code>). Головна кнопка веде на реєстрацію. [S: <a href="../screens/drcash-02-contacts.png">drcash-02</a>] [W: dr.cash, посилання t.me у DOM]</td>
+<td>Три шляхи: (1) «Become a partner» → сторінка логіну <code>/authorize/login</code>; (2) блок «Our Team», де можна написати будь-якому з 4 менеджерів за Telegram-хендлом; (3) форма «We&#39;re in touch» внизу сторінки з полями «email / Telegram / WhatsApp» і «message». [S: <a href="../screens/leadrock-02-team.png">leadrock-02</a>, <a href="../screens/leadrock-05-contact-form.png">leadrock-05</a>] [W: leadrock.com, CTA → <code>/authorize/login</code>]</td>
+<td>«Регистрация» відкриває вибір ролі, кожна роль веде на свою форму. Аффіліат: ім&#39;я, прізвище, email, пароль, месенджер + нік. Рекламодавець: ім&#39;я, прізвище, email, компанія, «які GEO плануєте», бренди й сайти. Пряма розмова лише через Telegram підтримки (<code>alfa_support24</code>) і email у футері. [S: <a href="../screens/alfaleads-05-affiliate-form.png">alfaleads-05</a>, <a href="../screens/alfaleads-06-advertiser-form.png">alfaleads-06</a>] [W: alfaleads.net, кнопка «Регистрация» → <code>/ru/affiliates/form</code>, <code>/ru/advertisers/form</code>]</td>
+<td>Розділено одразу в хіро. Рекламодавець → «Talk to Admitad Expert», форма (Name, Email, Website, Phone, Services, повідомлення → «Get my growth plan»). Паблішер → реєстрація (email + пароль) на login.mitgo.com. Telegram-контакту на шляху немає. [S: <a href="../screens/admitad-02-advertiser-form.png">admitad-02</a>, <a href="../screens/admitad-03-publisher-signup.png">admitad-03</a>]</td>
+<td>«Get started» веде на сторінку «Choose your path» з FAQ. «Contact» веде на форму «Say hello» (регіон, «хто ви», ім&#39;я, email). Месенджерів немає. [S: <a href="../screens/awin-02-who-are-you.png">awin-02</a>, <a href="../screens/awin-03-getting-started.png">awin-03</a>, <a href="../screens/awin-04-contact.png">awin-04</a>]</td>
+</tr>
+<tr>
+<td><strong>3. «Топові офери з високим ROI і максимальним конвертом»: чи видно одразу</strong></td>
+<td><strong>Так, найсильніше з п&#39;яти.</strong> На першому екрані мокап «Offers rating» з апрувом і ставками. Кнопка «Research offer» веде на <strong>публічний каталог</strong> (ID, офер, GEO в назві, Approve %, Payout $, Rank) з добірками «Highest AR%» і «Best in EU». [S: <a href="../screens/drcash-01-first-screen.png">drcash-01</a>, <a href="../screens/drcash-04-offers.png">drcash-04</a>] [W: dr.cash/offers]</td>
+<td><strong>Частково.</strong> На першому екрані немає. Нижче є блок «Our offers for yours the maximum Appruval»: картки оферів з нішею і «Payout up to $25–34», але без GEO та апруву. Повний каталог: доступ обмежений (логін). [S: <a href="../screens/leadrock-04-offers-block.png">leadrock-04</a>] [W: leadrock.com#offers]</td>
+<td><strong>Ні.</strong> Лише цифри «5000+ оферів», «1000+ прямих рекламодавців», «220% середнього росту топ-5 партнерів». Самих оферів і ставок не видно: доступ обмежений (my.alfaleads.net). [W: alfaleads.net/ru, текст DOM]</td>
+<td><strong>Ні (не їхня модель).</strong> Замість оферів логотипи брендів і цифри мережі. Офери та ставки: доступ обмежений (store.admitad.com). [S: <a href="../screens/admitad-01-first-screen.png">admitad-01</a>]</td>
+<td><strong>Ні (не їхня модель).</strong> Замість оферів «30K+ brands» і кейси (Samsung ROI, Vodafone). Публічний каталог рекламодавців є, але без ставок. Застосунок «Awin for Publishers» (App Store / Google Play) працює лише після логіну: доступ обмежений. [S: <a href="../screens/awin-01-first-screen.png">awin-01</a>] [W: awin.com] [R: <a href="https://apps.apple.com/app/id6498894394" target="_blank" rel="noopener">App Store</a>, <a href="https://success.awin.com/articles/en_US/Knowledge/The-Awin-for-Publishers-app" target="_blank" rel="noopener">Awin help</a>]</td>
+</tr>
+<tr>
+<td><strong>4. Як задача завершується</strong></td>
+<td>Два фінали: (а) форма реєстрації (email, пароль, username, <strong>месенджер + контакт</strong>) → кабінет affiliate.dr.cash: доступ обмежений; (б) чат у Telegram з менеджером поза сайтом. У відгуках Trustpilot трапляються скарги, що менеджер не відповідає і що без нього не вивести гроші, тобто фінал «через менеджера» — точка ризику. [S: <a href="../screens/drcash-03-signup.png">drcash-03</a>] [R: <a href="https://uk.trustpilot.com/review/dr.cash" target="_blank" rel="noopener">Trustpilot dr.cash</a>]</td>
+<td>Три фінали: (а) реєстрація з 2 полів (email, пароль) → кабінет: доступ обмежений; (б) чат з менеджером у Telegram; (в) форма «Send» з приміткою, що натискання означає згоду з публічною офертою. Що показується після надсилання, не перевіряли (форму не надсилали). [S: <a href="../screens/leadrock-03-signup.png">leadrock-03</a>, <a href="../screens/leadrock-05-contact-form.png">leadrock-05</a>]</td>
+<td>Багатокрокова форма (кнопка «Далее») → кабінет my.alfaleads.net: доступ обмежений. Після контакту в Telegram можна перевірити співробітника через <strong>Team check</strong> на сайті (поле @username → «Проверить»). [S: <a href="../screens/alfaleads-05-affiliate-form.png">alfaleads-05</a>, <a href="../screens/alfaleads-04-team-check.png">alfaleads-04</a>]</td>
+<td>Рекламодавець надсилає форму і отримує обіцянку «we&#39;ll map out how to grow your sales», тобто відповідь експерта (екран після надсилання не перевіряли). Паблішер потрапляє в кабінет: доступ обмежений. [S: <a href="../screens/admitad-02-advertiser-form.png">admitad-02</a>, <a href="../screens/admitad-03-publisher-signup.png">admitad-03</a>]</td>
+<td>Контактна форма → відповідь команди (не надсилали). Реєстрація → ui.awin.com: доступ обмежений. FAQ на «Getting started» заздалегідь відповідає на «скільки часу до старту» і «чи безкоштовно». [S: <a href="../screens/awin-03-getting-started.png">awin-03</a>, <a href="../screens/awin-04-contact.png">awin-04</a>]</td>
+</tr>
+<tr>
+<td><strong>5. Мова інтерфейсу (локаль uk-UA)</strong></td>
+<td>Лише EN, перемикача мов немає. [W: dr.cash, <code>lang=&quot;en&quot;</code>]</td>
+<td>EN: сайт сам переадресував на <code>/authorization/en/</code>. Перемикач EN ▾ з прапором. За кроком 03 основна мова RU. UA немає. [S: <a href="../screens/leadrock-01-first-screen.png">leadrock-01</a>] [W: редирект leadrock.com → /authorization/en/]</td>
+<td><strong>RU: автоматичний редирект на <code>/ru</code></strong> для української локалі. Перемикач мов — іконка-глобус. UA немає. [S: <a href="../screens/alfaleads-01-first-screen.png">alfaleads-01</a>] [W: редирект alfaleads.net → /ru]</td>
+<td>Сайт EN, але <strong>банер cookie українською</strong> («Добре», «Не передавати мої персональні дані»). Реєстрація паблішера проходить через <code>store.admitad.com/ua/…</code> і далі показує форму англійською. Регіональна UA-версія існує. [S: <a href="../screens/admitad-01-first-screen.png">admitad-01</a>, <a href="../screens/admitad-03-publisher-signup.png">admitad-03</a>] [W: 03-competitors.md]</td>
+<td>EN (<code>en-GB</code>). Вибір регіону («Global / Change Territory») замість мови, внутрішні сторінки переадресовуються на <code>/gb/</code>. UA немає. [S: <a href="../screens/awin-01-first-screen.png">awin-01</a>] [W: awin.com/gb/getting-started]</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2>Три спільні патерни ринку</h2>
+<ol>
+<li><strong>Спершу реєстрація, а розмова потім.</strong> У чотирьох з п&#39;яти головна кнопка першого екрана веде на реєстрацію або логін (Dr.Cash «Join us», LeadRock «Become a partner» → login, Alfaleads «Регистрация», Admitad «Start as Publisher»). Живий контакт (Telegram, менеджер, форма) лежить нижче першого екрана або у футері. [S: drcash-01, leadrock-01, alfaleads-01, admitad-01]</li>
+<li><strong>Розділення аудиторій на окремі доріжки.</strong> Dr.Cash, Alfaleads, Admitad і Awin одразу питають «хто ви» і ведуть кожну роль своїм шляхом, зі своєю формою чи контактом. Виняток — LeadRock, у якого один шлях для всіх. [S: drcash-02, alfaleads-01, admitad-01, awin-02]</li>
+<li><strong>Масштаб у цифрах замість доказу результату.</strong> Скрізь великі цифри мережі (7100+ оферів, 5000+ оферів, 300 000+ паблішерів, 30K+ брендів). Кейсів з ROI на головних сторінках хард- і софт-конкурентів майже немає: у Dr.Cash вони винесені в Telegram, у решти їх немає. [S: admitad-01, awin-01, alfaleads-01] [W: 03-competitors.md]</li>
+</ol>
+<h2>Три відмінності</h2>
+<ol>
+<li><strong>Чи видно офери:</strong> від публічного каталогу зі ставками й апрувом (Dr.Cash), через картки «Payout up to $X» без GEO (LeadRock), до повністю закритих оферів (Alfaleads, Admitad, Awin). [S: drcash-04, leadrock-04]</li>
+<li><strong>Чим закінчується шлях:</strong> кабінет (Dr.Cash, Alfaleads, паблішери Admitad), розмова з людиною в Telegram (LeadRock — 4 менеджери з хендлами, Dr.Cash — окремі TG для вебів і рекламодавців), або форма заявки з відповіддю експерта (Admitad для рекламодавців, Awin, форма LeadRock). Довіру до розмови в Telegram підсилює лише Alfaleads, через Team check. [S: leadrock-02, drcash-02, admitad-02, alfaleads-04]</li>
+<li><strong>Мова для UA-відвідувача:</strong> Alfaleads автоматично віддає RU, LeadRock — EN (основна RU), Dr.Cash і Awin — лише EN, Admitad — EN з UA-банером cookie. <strong>Повноцінної української немає ні в кого.</strong> Візуально ринок ділиться на темний неон і брутал (LeadRock, Alfaleads) та світлий корпоративний стиль (Admitad, Awin). Dr.Cash посередині: світлий фон з неоновими акцентами. [S: alfaleads-01, leadrock-01, admitad-01]</li>
+</ol>
+<h2>Три відкриті питання до PM</h2>
+<ol>
+<li><strong>Чи показуємо офери і ставки на лендінгу?</strong> Як Dr.Cash (каталог з апрувом і ставкою), як LeadRock («виплата до $X» без GEO), чи лише «ставки — у менеджера»? Від цього залежить, чи доведемо «топові офери з високим ROI і максимальним конвертом» на першому екрані. Питання пов&#39;язане з відкритими питаннями 1–3 у CLAUDE.md (моделі оплати, виплати, цифри).</li>
+<li><strong>Чим закінчується наша ключова задача і що людина бачить після неї?</strong> Якщо кабінету немає і фінал — це Telegram або форма, то: (а) хто відповідає і за який час (це можна обіцяти на сайті, як «5 хв» у Keitaro); (б) що показуємо після надсилання форми; (в) чи потрібна реєстрація взагалі. Це питання про Telegram-бота пов&#39;язане з відкритим питанням 17.</li>
+<li><strong>Один шлях чи окремі доріжки для арбітражників і вебмайстрів та для рекламодавців?</strong> Окремі доріжки — це окремі Telegram-контакти (як у Dr.Cash), окремі поля форми (як у Alfaleads: «які GEO» для рекламодавця) і, можливо, блок менеджерів з хендлами плюс перевірка «чи це справді наш менеджер» (як Team check). Хто з команди готовий бути публічним контактом?</li>
+</ol>
+<hr>
+<h3>Обмеження</h3>
+<ul>
+<li>Відгуки: Dr.Cash має багато відгуків на Trustpilot, і вони суперечливі. В Alfaleads лише 2 відгуки. Для LeadRock на Trustpilot не знайшли нічого. [R: <a href="https://uk.trustpilot.com/review/dr.cash" target="_blank" rel="noopener">Trustpilot dr.cash</a>, <a href="https://uk.trustpilot.com/review/alfaleads.net" target="_blank" rel="noopener">Trustpilot alfaleads</a>, <a href="https://afflift.com/f/threads/leadrock-review.9533/latest" target="_blank" rel="noopener">AffLift LeadRock</a>]</li>
+<li>Застосунки: є лише в Awin (за логіном). У Dr.Cash, LeadRock і Alfaleads застосунків не знайшли. В Admitad є тільки SDK для рекламодавців, публічного застосунку для паблішерів немає. [R: <a href="https://edu.affiliate.admitad.com/en/sdk/amp/" target="_blank" rel="noopener">Admitad SDK</a>]</li>
+<li>Демо-відео окремо не шукали. Висновки зроблено за сторінками і скрінами.</li>
+<li>Цифри наведено так, як їх заявляють самі компанії, ми їх не перевіряли.</li>
+</ul>
+
+<h2 id="screens">Скріни</h2>
+<h3>Admitad</h3>
+<div class="shots"><a href="../screens/admitad-01-first-screen.png" target="_blank"><img src="../screens/admitad-01-first-screen.png" alt="admitad-01-first-screen.png" loading="lazy"><span>admitad-01-first-screen</span></a><a href="../screens/admitad-02-advertiser-form.png" target="_blank"><img src="../screens/admitad-02-advertiser-form.png" alt="admitad-02-advertiser-form.png" loading="lazy"><span>admitad-02-advertiser-form</span></a><a href="../screens/admitad-03-publisher-signup.png" target="_blank"><img src="../screens/admitad-03-publisher-signup.png" alt="admitad-03-publisher-signup.png" loading="lazy"><span>admitad-03-publisher-signup</span></a></div>
+<h3>Alfaleads</h3>
+<div class="shots"><a href="../screens/alfaleads-01-first-screen.png" target="_blank"><img src="../screens/alfaleads-01-first-screen.png" alt="alfaleads-01-first-screen.png" loading="lazy"><span>alfaleads-01-first-screen</span></a><a href="../screens/alfaleads-02-advertisers.png" target="_blank"><img src="../screens/alfaleads-02-advertisers.png" alt="alfaleads-02-advertisers.png" loading="lazy"><span>alfaleads-02-advertisers</span></a><a href="../screens/alfaleads-03-affiliates.png" target="_blank"><img src="../screens/alfaleads-03-affiliates.png" alt="alfaleads-03-affiliates.png" loading="lazy"><span>alfaleads-03-affiliates</span></a><a href="../screens/alfaleads-04-team-check.png" target="_blank"><img src="../screens/alfaleads-04-team-check.png" alt="alfaleads-04-team-check.png" loading="lazy"><span>alfaleads-04-team-check</span></a><a href="../screens/alfaleads-05-affiliate-form.png" target="_blank"><img src="../screens/alfaleads-05-affiliate-form.png" alt="alfaleads-05-affiliate-form.png" loading="lazy"><span>alfaleads-05-affiliate-form</span></a><a href="../screens/alfaleads-06-advertiser-form.png" target="_blank"><img src="../screens/alfaleads-06-advertiser-form.png" alt="alfaleads-06-advertiser-form.png" loading="lazy"><span>alfaleads-06-advertiser-form</span></a></div>
+<h3>Awin</h3>
+<div class="shots"><a href="../screens/awin-01-first-screen.png" target="_blank"><img src="../screens/awin-01-first-screen.png" alt="awin-01-first-screen.png" loading="lazy"><span>awin-01-first-screen</span></a><a href="../screens/awin-02-who-are-you.png" target="_blank"><img src="../screens/awin-02-who-are-you.png" alt="awin-02-who-are-you.png" loading="lazy"><span>awin-02-who-are-you</span></a><a href="../screens/awin-03-getting-started.png" target="_blank"><img src="../screens/awin-03-getting-started.png" alt="awin-03-getting-started.png" loading="lazy"><span>awin-03-getting-started</span></a><a href="../screens/awin-04-contact.png" target="_blank"><img src="../screens/awin-04-contact.png" alt="awin-04-contact.png" loading="lazy"><span>awin-04-contact</span></a></div>
+<h3>Dr.Cash</h3>
+<div class="shots"><a href="../screens/drcash-01-first-screen.png" target="_blank"><img src="../screens/drcash-01-first-screen.png" alt="drcash-01-first-screen.png" loading="lazy"><span>drcash-01-first-screen</span></a><a href="../screens/drcash-02-contacts.png" target="_blank"><img src="../screens/drcash-02-contacts.png" alt="drcash-02-contacts.png" loading="lazy"><span>drcash-02-contacts</span></a><a href="../screens/drcash-03-signup.png" target="_blank"><img src="../screens/drcash-03-signup.png" alt="drcash-03-signup.png" loading="lazy"><span>drcash-03-signup</span></a><a href="../screens/drcash-04-offers.png" target="_blank"><img src="../screens/drcash-04-offers.png" alt="drcash-04-offers.png" loading="lazy"><span>drcash-04-offers</span></a></div>
+<h3>LeadRock</h3>
+<div class="shots"><a href="../screens/leadrock-01-first-screen.png" target="_blank"><img src="../screens/leadrock-01-first-screen.png" alt="leadrock-01-first-screen.png" loading="lazy"><span>leadrock-01-first-screen</span></a><a href="../screens/leadrock-02-team.png" target="_blank"><img src="../screens/leadrock-02-team.png" alt="leadrock-02-team.png" loading="lazy"><span>leadrock-02-team</span></a><a href="../screens/leadrock-03-signup.png" target="_blank"><img src="../screens/leadrock-03-signup.png" alt="leadrock-03-signup.png" loading="lazy"><span>leadrock-03-signup</span></a><a href="../screens/leadrock-04-offers-block.png" target="_blank"><img src="../screens/leadrock-04-offers-block.png" alt="leadrock-04-offers-block.png" loading="lazy"><span>leadrock-04-offers-block</span></a><a href="../screens/leadrock-05-contact-form.png" target="_blank"><img src="../screens/leadrock-05-contact-form.png" alt="leadrock-05-contact-form.png" loading="lazy"><span>leadrock-05-contact-form</span></a></div>
+    <p style="margin-top:40px;color:var(--muted);font-size:13px">Джерело: <a href="https://github.com/natocheiev/monolead-landing/blob/main/research/notes/04-matrix.md" target="_blank" rel="noopener">research/notes/04-matrix.md</a></p>
+  </main>
+</body>
+</html>

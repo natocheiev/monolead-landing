@@ -10,5 +10,12 @@
  * Гілка з'являється разом зі своєю першою сторінкою.
  */
 window.NAV_TREE = [
-  { title: "Старт", path: "index.html" }
+  { title: "Старт", path: "index.html" },
+  {
+    branch: "Дослідження",
+    pages: [
+      { title: "Конкуренти", path: "research/notes/03-competitors.html" },
+      { title: "Матриця", path: "research/notes/04-matrix.html" }
+    ]
+  }
 ];
