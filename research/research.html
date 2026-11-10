@@ -30,6 +30,8 @@
       --dark-ink: #f2f3f5;
       --dark-muted: #a3a9b6;
       --warn: #b4531f;
+      --pink: #fc8cff;
+      --pink-ink: #2a0b30;
       --radius: 14px;
     }
     * { box-sizing: border-box; }
@@ -86,6 +88,27 @@
     .btn-navy { background: var(--navy); color: var(--navy-ink); }
     .btn-lime { background: var(--lime); color: var(--lime-ink); }
     .btn-ghost { background: var(--card); color: var(--ink); }
+    .btn-pink { background: var(--pink); color: var(--pink-ink); }
+
+    /* питання до Сергія */
+    .questions { background: var(--pink); color: var(--pink-ink); border-radius: 28px; margin: 0 16px 16px; }
+    .questions .chip { background: rgba(255,255,255,.55); color: var(--pink-ink); }
+    .questions .chip::before { background: var(--pink-ink); }
+    .questions h2 em { color: var(--pink-ink); text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 8px; }
+    .questions .lead { color: #3d1446; }
+    .questions a { color: var(--pink-ink); }
+    .q-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .q-group { background: rgba(255,255,255,.62); border-radius: var(--radius); padding: 24px; }
+    .q-group h3 { font-size: 13px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 14px; color: #5a1d66; }
+    .q-group ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+    .q-group li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; }
+    .q-num { font-size: 15px; font-weight: 700; color: #5a1d66; }
+    .q-text { font-size: 15.5px; line-height: 1.45; font-weight: 500; }
+    .q-later { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; background: var(--pink-ink); color: #fff; padding: 2px 7px; border-radius: 5px; margin-left: 6px; vertical-align: 2px; }
+    .q-hint { display: block; font-size: 13px; line-height: 1.45; color: #4b2453; margin-top: 4px; }
+    .q-hint b { font-weight: 600; }
+    .q-done { text-decoration: line-through; opacity: .6; }
+    .q-group.wide { grid-column: 1 / -1; background: #fff; }
 
     .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 56px; border-top: 1px solid var(--line); }
     .stat { padding: 22px 18px 0 0; display: flex; align-items: flex-start; gap: 12px; }
@@ -227,6 +250,8 @@
       .pattern { grid-template-columns: 40px 1fr; }
       .verdict { grid-column: 2; justify-self: start; }
       .nogo { grid-template-columns: 1fr; }
+      .q-groups { grid-template-columns: 1fr; }
+      .questions { margin: 0; border-radius: 0; }
       .dark { margin: 0; border-radius: 0; }
       .why { padding: 24px; }
       section { padding: 64px 0; }
@@ -246,6 +271,7 @@
     <div class="hero-actions">
       <a class="btn btn-navy" href="#conclusions">Висновки й гіпотези ↵</a>
       <a class="btn btn-ghost" href="https://github.com/natocheiev/monolead-landing/blob/main/research/research.md" target="_blank" rel="noopener">research.md на GitHub</a>
+      <a class="btn btn-pink" href="#questions">Питання до Сергія</a>
     </div>
 
     <div class="stats">
@@ -276,6 +302,7 @@
     <a href="#patterns">03 Патерни</a>
     <a href="#conclusions">04 Висновки</a>
     <a href="#screens">Скріни</a>
+    <a href="#questions">Питання до Сергія</a>
   </div>
 </nav>
 
@@ -576,6 +603,74 @@
       </div>
     </div>
     <div id="gallery"></div>
+  </div>
+</section>
+
+<!-- ================= ПИТАННЯ ДО СЕРГІЯ ================= -->
+<!-- Дзеркало розділу 11 «Відкриті питання» з CLAUDE.md. Змінюєш одне — онови інше в тому самому кроці. -->
+<section id="questions" class="questions">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="chip">Відкриті питання</span>
+      <div>
+        <h2>Питання до <em>Сергія</em></h2>
+        <p class="lead" style="margin-top:16px">Без цих відповідей лендінг не наповнити реальними даними. Позначка <span class="q-later" style="margin-left:0">уточню</span> — питання, які ви обіцяли уточнити на старті. «Ресерч:» — лише орієнтир з ринку, а не відповідь за Monolead.</p>
+      </div>
+    </div>
+
+    <div class="q-groups">
+      <div class="q-group">
+        <h3>Бізнес / офер</h3>
+        <ol>
+          <li><span class="q-num">1</span><span class="q-text">Моделі оплати: CPA, CPL, CPS, RevShare? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> у ніші працюють CPA, COD, Trial, SS, CPL — <a href="screens/drcash-04-offers.png" class="lb-link">каталог Dr.Cash</a>.</span></span></li>
+          <li><span class="q-num">2</span><span class="q-text">Виплати: частота, мінімальна сума, способи, чи є холд? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> LeadRock — 3×/тиж., від $50; Everad — від $100, є холд; Dr.Cash — холд 4 дні (<a href="screens/drcash-05-offer-detail.png" class="lb-link">скрін</a>).</span></span></li>
+          <li><span class="q-num">3</span><span class="q-text">Цифри для соцдоказу: офери, партнери, GEO, ліди на місяць, середній апрув, рік заснування. <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> реальні кейси з ROI переконують краще, ніж масштаб (H8).</span></span></li>
+          <li><span class="q-num">4</span><span class="q-text">Як саме працює «Гарант на тестовий пролив»: умови, суми, що гарантується? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> такого не пропонує ніхто — це головний USP (H6).</span></span></li>
+          <li><span class="q-num">5</span><span class="q-text">Які джерела трафіку дозволені й заборонені? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> LeadRock обмежує push і TikTok; Dr.Cash забороняє креативи з лікарями й зірками.</span></span></li>
+        </ol>
+      </div>
+
+      <div class="q-group">
+        <h3>Контент</h3>
+        <ol>
+          <li><span class="q-num">6</span><span class="q-text">Дані для кейсів: офер, GEO, джерело, витрати, дохід, ROI, скріни.</span></li>
+          <li><span class="q-num">7</span><span class="q-text">Відгуки партнерів: тексти, імена або нікнейми, аватари.</span></li>
+          <li><span class="q-num">8</span><span class="q-text">Команда / менеджери: імена, ролі, фото, Telegram.<span class="q-hint"><b>Ресерч:</b> показувати менеджерів + перевірку «чи це справді наш менеджер» (H5).</span></span></li>
+          <li><span class="q-num">9</span><span class="q-text">Чи додавати блок вакансій (vacancy.monolead.pro)? <span class="q-later">уточню</span></span></li>
+          <li><span class="q-num">10</span><span class="q-text">Чи потрібен FAQ і з якими питаннями?<span class="q-hint"><b>Ресерч:</b> так — виплати, холд, джерела, «скільки до старту», час відповіді.</span></span></li>
+          <li><span class="q-num">11</span><span class="q-text">Блог / статті: робимо чи ні, і коли? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> Alfaleads заявляє 60% трафіку з SEO; GEO-сторінки — гіпотеза H7.</span></span></li>
+        </ol>
+      </div>
+
+      <div class="q-group">
+        <h3>SEO / маркетинг · дизайн</h3>
+        <ol>
+          <li><span class="q-num">12</span><span class="q-text"><span class="q-done">Аналіз конкурентів</span> — зроблено. Лишилося семантичне ядро.</span></li>
+          <li><span class="q-num">13</span><span class="q-text">Аналітика: GA4, GTM, Meta Pixel, Clarity чи інше? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> обов'язково подія на клік по кнопці Telegram.</span></span></li>
+          <li><span class="q-num">14</span><span class="q-text">Логотип у SVG, фірмові кольори й шрифти.</span></li>
+          <li><span class="q-num">15</span><span class="q-text">Візуальні референси, вибір стилю (темний тех чи гранж/брутал) і ваша перша версія. <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> ринок ділиться на темний неон / брутал і світлий корпоратив.</span></span></li>
+        </ol>
+      </div>
+
+      <div class="q-group">
+        <h3>Технічне</h3>
+        <ol>
+          <li><span class="q-num">16</span><span class="q-text">Чистий HTML чи HTML через статичний генератор (Eleventy)?</span></li>
+          <li><span class="q-num">17</span><span class="q-text">Telegram-бот для заявок: хто створює, в який чат чи канал надсилати?<span class="q-hint"><b>Ресерч:</b> бот через <code>?start=</code> передає контекст і рахується в аналітиці.</span></span></li>
+          <li><span class="q-num">18</span><span class="q-text">Хостинг надовго: лишаємо Vercel?</span></li>
+        </ol>
+      </div>
+
+      <div class="q-group wide">
+        <h3>Нові — з ресерчу</h3>
+        <ol>
+          <li><span class="q-num">19</span><span class="q-text">Чи показуємо офери і ставки на лендінгу публічно? Від цього залежить вітрина оферів.</span></li>
+          <li><span class="q-num">20</span><span class="q-text">Хто відповідає в Telegram, у які години і за скільки хвилин? Це обіцянка біля кнопки (H4).</span></li>
+          <li><span class="q-num">21</span><span class="q-text">Один Telegram-контакт для всіх чи окремі для вебів / арбітражників і рекламодавців?</span></li>
+          <li><span class="q-num">22</span><span class="q-text">Хто з команди готовий бути публічним контактом з фото й хендлом на сайті?</span></li>
+        </ol>
+      </div>
+    </div>
   </div>
 </section>
 
