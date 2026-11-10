@@ -22,5 +22,6 @@
 | [index.html](./index.html) · [на Pages](https://natocheiev.github.io/monolead-landing/) | Стартова сторінка репо з навігатором |
 | [_nav/tree.js](./_nav/tree.js) | Дерево сторінок, реєстр сторінок для навігатора |
 | [_nav/nav.js](./_nav/nav.js) · [_nav/nav.css](./_nav/nav.css) | Скрипт і стилі бокового меню |
-| [research/](./research/) | Дослідження (поки порожньо) |
+| [research/](./research/) | Дослідження |
 | [research/screens/](./research/screens/) | Скріни для досліджень (поки порожньо) |
+| [research/notes/03-competitors.md](./research/notes/03-competitors.md) | Конкуренти: хард / софт / аспіраційні, що вивчити, що відкрито без логіну |
