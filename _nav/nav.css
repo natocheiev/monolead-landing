@@ -1,0 +1,87 @@
+/* Навігатор репо — нейтральний інструмент, не частина продукту. */
+.repo-nav {
+  --nav-w: 240px;
+  --nav-bg: #f6f6f6;
+  --nav-fg: #222;
+  --nav-muted: #777;
+  --nav-line: #ddd;
+  --nav-hover: #e9e9e9;
+  --nav-current-bg: #222;
+  --nav-current-fg: #fff;
+
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--nav-w);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 16px 12px;
+  background: var(--nav-bg);
+  color: var(--nav-fg);
+  border-right: 1px solid var(--nav-line);
+  font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  z-index: 2147483000;
+}
+
+@media (prefers-color-scheme: dark) {
+  .repo-nav {
+    --nav-bg: #1c1c1c;
+    --nav-fg: #ddd;
+    --nav-muted: #888;
+    --nav-line: #333;
+    --nav-hover: #2a2a2a;
+    --nav-current-bg: #ddd;
+    --nav-current-fg: #111;
+  }
+}
+
+body.has-repo-nav { padding-left: 240px; }
+
+.repo-nav ul { list-style: none; margin: 0; padding: 0; }
+.repo-nav a {
+  display: block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+.repo-nav a:hover { background: var(--nav-hover); }
+
+.repo-nav .nav-head {
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--nav-line);
+  border-radius: 0;
+}
+
+.repo-nav .nav-branch { margin-top: 12px; }
+.repo-nav .nav-branch-label {
+  display: block;
+  padding: 0 8px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--nav-muted);
+}
+
+.repo-nav .nav-children {
+  margin-left: 12px;
+  padding-left: 6px;
+  border-left: 1px solid var(--nav-line);
+}
+
+.repo-nav a.nav-current {
+  background: var(--nav-current-bg);
+  color: var(--nav-current-fg);
+}
+
+@media (max-width: 720px) {
+  .repo-nav {
+    position: static;
+    width: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--nav-line);
+  }
+  body.has-repo-nav { padding-left: 0; }
+}
