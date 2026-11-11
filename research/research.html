@@ -109,6 +109,8 @@
     .q-hint b { font-weight: 600; }
     .q-done { text-decoration: line-through; opacity: .6; }
     .q-group.wide { grid-column: 1 / -1; background: #fff; }
+    .q-group ol.answers { grid-template-columns: repeat(2, 1fr); column-gap: 28px; }
+    @media (max-width: 860px) { .q-group ol.answers { grid-template-columns: 1fr; } }
 
     .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 56px; border-top: 1px solid var(--line); }
     .stat { padding: 22px 18px 0 0; display: flex; align-items: flex-start; gap: 12px; }
@@ -214,6 +216,17 @@
     .why a { color: var(--lime); }
     .why .src { color: #b8c6ea; }
 
+    /* оновлення 2026-11-11 */
+    .upd { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: var(--pink); color: var(--pink-ink); padding: 2px 7px; border-radius: 5px; white-space: nowrap; vertical-align: 1px; }
+    .update-box { margin-top: 12px; background: var(--pink); color: var(--pink-ink); border-radius: var(--radius); padding: 22px 24px; }
+    .update-box h3 { font-size: 17px; margin-bottom: 10px; }
+    .update-box ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 15px; }
+    .update-box a { color: var(--pink-ink); }
+    .update-box .upd { background: #fff; }
+    tr.cancelled td { opacity: .55; }
+    tr.cancelled td:nth-child(3) { text-decoration: line-through; }
+    s { opacity: .7; }
+
     /* conclusions */
     .hyp td:first-child { font-weight: 700; color: var(--navy); white-space: nowrap; }
     .from { display: inline-block; font-size: 11.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; background: #eceee9; color: var(--ink-2); margin: 0 4px 4px 0; white-space: nowrap; text-decoration: none; }
@@ -291,6 +304,16 @@
         <h3><span class="tag tag-own">власний акаунт</span> Нічого</h3>
         <p>Теки <code>research/screens/own/</code> немає. Скрінів з вашого особистого кабінету в ресерчі немає, тож особистих даних на сторінці теж немає (перевірено перед публікацією).</p>
       </div>
+    </div>
+
+    <div class="update-box">
+      <h3>Оновлено 2026-11-11: відповіді Сергія змінили частину висновків</h3>
+      <ul>
+        <li><b>Гарант на тестовий пролив</b> на лендінг не йде (лише для чинних партнерів, індивідуально) → механізм 2 і H6 переписано.</li>
+        <li><b>Кейсів не буде</b> → H8 скасовано, натомість H8′: середній апрув топ-оферів по GEO / джерелах + відгуки партнерів.</li>
+        <li><b>Підтверджено:</b> топ-офери з апрувом по GEO (H1, частково — ставки публічно ще питання 19) і блок менеджерів (H5).</li>
+      </ul>
+      <p class="src" style="margin-top:10px;color:#4b2453">Усі зміни позначено <span class="upd">оновлено</span>; початковий аналіз не стираємо. <a href="#questions">Відповіді й відкриті питання ↓</a></p>
     </div>
   </div>
 </header>
@@ -471,14 +494,14 @@
         <h3>Вітрина оферів з чесною карткою</h3>
         <p>Ставка, апрув, GEO, модель, статус і «Оновлено: дата»; у кожної метрики підказка «що це і за який період». Закриває К1–К4.</p>
         <p class="src">Еталони: <a href="screens/clickbank-01-top-offers.png" class="lb-link">ClickBank</a>, <a href="screens/drcash-05-offer-detail.png" class="lb-link">Dr.Cash</a>, <a href="screens/offervault-02-offer-detail.png" class="lb-link">OfferVault</a></p>
-        <p><span class="unconfirmed">дані не підтверджені</span> реальних оферів Monolead ще немає (відкриті питання 1, 3, 6)</p>
+        <p><span class="upd">оновлено</span> модель — CPA, апрув по GEO показуємо; публічні ставки — питання 19. <span class="unconfirmed">дані не підтверджені</span> самих оферів ще немає</p>
       </div>
       <div class="card">
         <span class="n">02</span>
-        <h3>Обмеження й гарантії на картці</h3>
-        <p>Холд, заборонені підходи, кап, коли платимо, «Гарант на тестовий пролив». Ринок показує лише плюси, тож названі умови самі стають доказом (К6).</p>
+        <h3>Обмеження й умови на сторінці</h3>
+        <p>Заборонено push і мотивований трафік, селеби — з апрувом менеджера, виплати гнучкі під запит. Ринок показує лише плюси, тож названі умови самі стають доказом (К6). <s>«Гарант на тестовий пролив»</s></p>
         <p class="src">Еталони: <a href="screens/drcash-05-offer-detail.png" class="lb-link">Dr.Cash</a>, <a href="screens/partnerstack-02-program.png" class="lb-link">PartnerStack</a></p>
-        <p><span class="unconfirmed">дані не підтверджені</span> механіка гаранту не описана (відкрите питання 4)</p>
+        <p><span class="upd">оновлено</span> гарант на лендінг не йде — лише для чинних партнерів, індивідуально</p>
       </div>
       <div class="card">
         <span class="n">03</span>
@@ -554,7 +577,7 @@
         </div>
         <div class="col">
           <div class="num">03</div>
-          <p><b style="color:#fff">Це наша відмінність.</b> «Підтримка 24/7», «індивідуальні умови» і «гарант на тестовий пролив» підтверджує людина. Ринок ховає її за реєстрацією.</p>
+          <p><b style="color:#fff">Це наша відмінність.</b> «Підтримка 24/7», індивідуальні умови, гнучкі виплати й досвід «ми самі вийшли з баїнгу» підтверджує людина. Ринок ховає її за реєстрацією. <span class="upd">оновлено</span></p>
           <p class="src"><a href="https://github.com/natocheiev/monolead-landing/blob/main/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md §1</a> · патерн ринку 01</p>
         </div>
       </div>
@@ -578,14 +601,15 @@
       <table class="hyp">
         <thead><tr><th>#</th><th>Прогалина</th><th>Гіпотеза</th><th>Звідки випливає</th></tr></thead>
         <tbody>
-          <tr><td style="color:var(--lime)">H1</td><td>Офери і ставки не видно до контакту; ринок показує їх лише в Dr.Cash</td><td>Вітрина топ-оферів зі ставкою, апрувом, GEO і датою оновлення приведе більше людей до кнопки Telegram, а звернення будуть предметнішими (одразу з ID оферу).</td><td><a class="from" href="#competitors">Конкуренти · вісь 3</a><a class="from" href="#benchmark">Бенчмарк · мех. 1, 3</a></td></tr>
+          <tr><td style="color:var(--lime)">H1</td><td>Офери і ставки не видно до контакту; ринок показує їх лише в Dr.Cash</td><td>Вітрина топ-оферів зі ставкою, апрувом, GEO і датою оновлення приведе більше людей до кнопки Telegram, а звернення будуть предметнішими (одразу з ID оферу). <span class="upd">оновлено</span> апрув по GEO — так; ставки публічно — питання 19</td><td><a class="from" href="#competitors">Конкуренти · вісь 3</a><a class="from" href="#benchmark">Бенчмарк · мех. 1, 3</a></td></tr>
           <tr><td style="color:var(--lime)">H2</td><td>Повноцінної української немає ні в кого; Alfaleads віддає UA-відвідувачу RU</td><td>Повноцінна UA-версія з hreflang: UA-арбітражники частіше дочитуватимуть і писатимуть, ніж на англомовних сайтах конкурентів.</td><td><a class="from" href="#competitors">Конкуренти · вісь 5</a></td></tr>
           <tr><td style="color:var(--lime)">H3</td><td>Людина схована за реєстрацією</td><td>Якщо головна кнопка першого екрана відкриває Telegram менеджера, а не реєстрацію, розмову почне більше відвідувачів.</td><td><a class="from" href="#competitors">Конкуренти · патерн 1</a><a class="from" href="#patterns">Патерни</a></td></tr>
           <tr><td style="color:var(--lime)">H4</td><td>Після заявки невідомо, хто і коли відповість; у Dr.Cash скаржаться на мовчання менеджера</td><td>Конкретна обіцянка біля кнопки («відповімо за N хв, з 9 до 21») і запасна форма поза робочим часом підвищать кліки й зменшать кинуті розмови. <span class="unconfirmed">дані не підтверджені</span> час відповіді Monolead</td><td><a class="from" href="#competitors">Конкуренти · вісь 4</a><a class="from" href="#patterns">Патерни</a></td></tr>
-          <tr><td style="color:var(--lime)">H5</td><td>Довіри до «менеджера в Telegram» немає; підробні акаунти — відомий ризик</td><td>Блок менеджерів з фото й хендлами плюс перевірка «чи це справді наш менеджер» — і відвідувачі частіше напишуть першими.</td><td><a class="from" href="#competitors">Конкуренти · відмінність 2</a><a class="from" href="#patterns">Патерни</a></td></tr>
-          <tr><td style="color:var(--lime)">H6</td><td>Ринок показує лише плюси; умови сховані або відсутні</td><td>Умови й механіка «Гаранту на тестовий пролив» прямо на картці та в окремому блоці дадуть більше довіри, ніж голі обіцянки. <span class="unconfirmed">дані не підтверджені</span> механіка гаранту</td><td><a class="from" href="#benchmark">Бенчмарк · мех. 2</a></td></tr>
+          <tr><td style="color:var(--lime)">H5</td><td>Довіри до «менеджера в Telegram» немає; підробні акаунти — відомий ризик</td><td>Блок менеджерів з фото й хендлами плюс перевірка «чи це справді наш менеджер» — і відвідувачі частіше напишуть першими. <span class="upd">підтверджено</span></td><td><a class="from" href="#competitors">Конкуренти · відмінність 2</a><a class="from" href="#patterns">Патерни</a></td></tr>
+          <tr><td style="color:var(--lime)">H6</td><td>Ринок показує лише плюси; умови сховані або відсутні</td><td>Умови прямо на сторінці (заборонено push і мотивований трафік, селеби — з апрувом, гнучкі виплати) дадуть більше довіри, ніж голі обіцянки. <span class="upd">оновлено</span> <s>гарант на тестовий пролив</s> — на лендінг не йде</td><td><a class="from" href="#benchmark">Бенчмарк · мех. 2</a></td></tr>
           <tr><td style="color:var(--lime)">H7</td><td>Наші GEO поіменно на лендінгах не названі</td><td>Окремі GEO-блоки чи сторінки дадуть пошуковий трафік за запитами «офери [країна] nutra», де конкурентів немає. <span class="unconfirmed">дані не підтверджені</span> обсяги запитів, семантичного ядра ще немає</td><td><a class="from" href="#competitors">Конкуренти · крок 03</a></td></tr>
-          <tr><td style="color:var(--lime)">H8</td><td>Цифри масштабу без доказу результату</td><td>2–3 реальні кейси з ROI переконають краще, ніж «N оферів». <span class="unconfirmed">дані не підтверджені</span> кейсів поки немає (відкрите питання 6)</td><td><a class="from" href="#competitors">Конкуренти · патерн 3</a></td></tr>
+          <tr class="cancelled"><td style="color:var(--lime)">H8</td><td>Цифри масштабу без доказу результату</td><td>2–3 реальні кейси з ROI переконають краще, ніж «N оферів».</td><td><span class="upd">скасовано</span> кейсів не буде</td></tr>
+          <tr><td style="color:var(--lime)">H8′</td><td>Цифри масштабу без доказу результату</td><td>Середній апрув топ-оферів по GEO / джерелах і відгуки партнерів переконають краще, ніж «N оферів». <span class="upd">нова</span> <span class="unconfirmed">дані не підтверджені</span> апрув і відгуки надасть / запросить власник</td><td><a class="from" href="#competitors">Конкуренти · патерн 3</a><a class="from" href="#questions">Відповіді 3, 6, 7</a></td></tr>
         </tbody>
       </table>
     </div>
@@ -614,60 +638,48 @@
       <span class="chip">Відкриті питання</span>
       <div>
         <h2>Питання до <em>Сергія</em></h2>
-        <p class="lead" style="margin-top:16px">Без цих відповідей лендінг не наповнити реальними даними. Позначка <span class="q-later" style="margin-left:0">уточню</span> — питання, які ви обіцяли уточнити на старті. «Ресерч:» — лише орієнтир з ринку, а не відповідь за Monolead.</p>
+        <p class="lead" style="margin-top:16px">Оновлено 2026-11-11: на 13 питань відповіді отримано й перенесено в бриф. Нижче — те, що ще відкрите, і короткий підсумок відповідей. «Ресерч:» — лише орієнтир з ринку.</p>
       </div>
     </div>
 
     <div class="q-groups">
       <div class="q-group">
-        <h3>Бізнес / офер</h3>
+        <h3>Відкриті · SEO, бренд, технічне</h3>
         <ol>
-          <li><span class="q-num">1</span><span class="q-text">Моделі оплати: CPA, CPL, CPS, RevShare? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> у ніші працюють CPA, COD, Trial, SS, CPL — <a href="screens/drcash-04-offers.png" class="lb-link">каталог Dr.Cash</a>.</span></span></li>
-          <li><span class="q-num">2</span><span class="q-text">Виплати: частота, мінімальна сума, способи, чи є холд? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> LeadRock — 3×/тиж., від $50; Everad — від $100, є холд; Dr.Cash — холд 4 дні (<a href="screens/drcash-05-offer-detail.png" class="lb-link">скрін</a>).</span></span></li>
-          <li><span class="q-num">3</span><span class="q-text">Цифри для соцдоказу: офери, партнери, GEO, ліди на місяць, середній апрув, рік заснування. <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> реальні кейси з ROI переконують краще, ніж масштаб (H8).</span></span></li>
-          <li><span class="q-num">4</span><span class="q-text">Як саме працює «Гарант на тестовий пролив»: умови, суми, що гарантується? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> такого не пропонує ніхто — це головний USP (H6).</span></span></li>
-          <li><span class="q-num">5</span><span class="q-text">Які джерела трафіку дозволені й заборонені? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> LeadRock обмежує push і TikTok; Dr.Cash забороняє креативи з лікарями й зірками.</span></span></li>
-        </ol>
-      </div>
-
-      <div class="q-group">
-        <h3>Контент</h3>
-        <ol>
-          <li><span class="q-num">6</span><span class="q-text">Дані для кейсів: офер, GEO, джерело, витрати, дохід, ROI, скріни.</span></li>
-          <li><span class="q-num">7</span><span class="q-text">Відгуки партнерів: тексти, імена або нікнейми, аватари.</span></li>
-          <li><span class="q-num">8</span><span class="q-text">Команда / менеджери: імена, ролі, фото, Telegram.<span class="q-hint"><b>Ресерч:</b> показувати менеджерів + перевірку «чи це справді наш менеджер» (H5).</span></span></li>
-          <li><span class="q-num">9</span><span class="q-text">Чи додавати блок вакансій (vacancy.monolead.pro)? <span class="q-later">уточню</span></span></li>
-          <li><span class="q-num">10</span><span class="q-text">Чи потрібен FAQ і з якими питаннями?<span class="q-hint"><b>Ресерч:</b> так — виплати, холд, джерела, «скільки до старту», час відповіді.</span></span></li>
-          <li><span class="q-num">11</span><span class="q-text">Блог / статті: робимо чи ні, і коли? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> Alfaleads заявляє 60% трафіку з SEO; GEO-сторінки — гіпотеза H7.</span></span></li>
-        </ol>
-      </div>
-
-      <div class="q-group">
-        <h3>SEO / маркетинг · дизайн</h3>
-        <ol>
-          <li><span class="q-num">12</span><span class="q-text"><span class="q-done">Аналіз конкурентів</span> — зроблено. Лишилося семантичне ядро.</span></li>
-          <li><span class="q-num">13</span><span class="q-text">Аналітика: GA4, GTM, Meta Pixel, Clarity чи інше? <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> обов'язково подія на клік по кнопці Telegram.</span></span></li>
+          <li><span class="q-num">12</span><span class="q-text">Семантичне ядро. <span class="q-done">Аналіз конкурентів</span> — зроблено, лишилося ядро запитів.</span></li>
           <li><span class="q-num">14</span><span class="q-text">Логотип у SVG, фірмові кольори й шрифти.</span></li>
-          <li><span class="q-num">15</span><span class="q-text">Візуальні референси, вибір стилю (темний тех чи гранж/брутал) і ваша перша версія. <span class="q-later">уточню</span><span class="q-hint"><b>Ресерч:</b> ринок ділиться на темний неон / брутал і світлий корпоратив.</span></span></li>
-        </ol>
-      </div>
-
-      <div class="q-group">
-        <h3>Технічне</h3>
-        <ol>
           <li><span class="q-num">16</span><span class="q-text">Чистий HTML чи HTML через статичний генератор (Eleventy)?</span></li>
           <li><span class="q-num">17</span><span class="q-text">Telegram-бот для заявок: хто створює, в який чат чи канал надсилати?<span class="q-hint"><b>Ресерч:</b> бот через <code>?start=</code> передає контекст і рахується в аналітиці.</span></span></li>
           <li><span class="q-num">18</span><span class="q-text">Хостинг надовго: лишаємо Vercel?</span></li>
         </ol>
       </div>
 
-      <div class="q-group wide">
-        <h3>Нові — з ресерчу</h3>
+      <div class="q-group">
+        <h3>Відкриті · нові з ресерчу</h3>
         <ol>
-          <li><span class="q-num">19</span><span class="q-text">Чи показуємо офери і ставки на лендінгу публічно? Від цього залежить вітрина оферів.</span></li>
+          <li><span class="q-num">19</span><span class="q-text">Топ-офери з апрувом по GEO показуємо. А <b>ставки</b> (payout) теж публічно — чи лише «у менеджера»?</span></li>
           <li><span class="q-num">20</span><span class="q-text">Хто відповідає в Telegram, у які години і за скільки хвилин? Це обіцянка біля кнопки (H4).</span></li>
           <li><span class="q-num">21</span><span class="q-text">Один Telegram-контакт для всіх чи окремі для вебів / арбітражників і рекламодавців?</span></li>
-          <li><span class="q-num">22</span><span class="q-text">Хто з команди готовий бути публічним контактом з фото й хендлом на сайті?</span></li>
+          <li><span class="q-num">22</span><span class="q-text">Хто з команди готовий бути публічним контактом з фото й хендлом? (Блок менеджерів — так.)</span></li>
+        </ol>
+      </div>
+
+      <div class="q-group wide">
+        <h3>Відповіді отримано · 2026-11-11</h3>
+        <ol class="answers">
+          <li><span class="q-num">1</span><span class="q-text">Модель — <b>CPA</b>; SS опційно, лише на окремих оферах і GEO.</span></li>
+          <li><span class="q-num">2</span><span class="q-text">Виплати <b>гнучкі, під запит</b> партнера — подаємо як перевагу.</span></li>
+          <li><span class="q-num">3</span><span class="q-text">Замість загальних цифр — <b>середній апрув топ-оферів по GEO / джерелах</b>.</span></li>
+          <li><span class="q-num">4</span><span class="q-text">Гарант на тестовий пролив — лише для чинних партнерів, індивідуально. <b>На лендінгу не показуємо.</b></span></li>
+          <li><span class="q-num">5</span><span class="q-text">Заборонено <b>push і мотивований</b> трафік, решта дозволена; селеби — з апрувом менеджера. Перевага: <b>«ми самі вийшли з баїнгу»</b>.</span></li>
+          <li><span class="q-num">6</span><span class="q-text">Кейси — <b>ні</b>: «мальовані» кейси вбили формат.</span></li>
+          <li><span class="q-num">7</span><span class="q-text">Відгуки — <b>так</b>, треба запросити в партнерів.</span></li>
+          <li><span class="q-num">8</span><span class="q-text">Блок менеджерів — <b>так</b>.</span></li>
+          <li><span class="q-num">9</span><span class="q-text">Вакансії — <b>ні</b>.</span></li>
+          <li><span class="q-num">10</span><span class="q-text">FAQ — <b>базовий</b>; деталі краще в чаті з менеджером.</span></li>
+          <li><span class="q-num">11</span><span class="q-text">Блог — <b>ні</b>.</span></li>
+          <li><span class="q-num">13</span><span class="q-text">Аналітика — <b>GA4, Meta Pixel, Microsoft Clarity</b>.</span></li>
+          <li><span class="q-num">15</span><span class="q-text">Дизайн — <b>3 версії</b>: стримана, технологічно спокійна, актуальна трендова.</span></li>
         </ol>
       </div>
     </div>
