@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="uk" data-root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Планета · палітра Monolead</title>
+  <link rel="stylesheet" href="assets/css/globe.css">
+  <style>
+    /* Палітра з Figma-прототипу сайту (кадр «5»): */
+    :root {
+      --bg: #0c0c0c;
+      --fire: #ff2f00;
+      --orange: #f27f24;
+      --cream: #ffdca6;
+      --teal: #3b6575;
+      --ink: #ffffff;
+      --muted: rgba(255, 255, 255, 0.55);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 Inter, system-ui, -apple-system, sans-serif; }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+    .geo { position: relative; overflow: hidden; padding: 96px 0 120px; }
+    /* вогняне світіння знизу — як радіальні градієнти в прототипі */
+    .geo::before {
+      content: ""; position: absolute; left: 50%; bottom: -55%; width: 1300px; height: 900px; transform: translateX(-50%);
+      background: radial-gradient(closest-side, rgba(255, 47, 0, 0) 62%, rgba(255, 47, 0, 0.44) 77%, rgba(255, 47, 0, 0.7) 84%, var(--orange) 92%, var(--cream) 100%);
+      filter: blur(60px); opacity: 0.55; pointer-events: none;
+    }
+    .geo--cool::before {
+      background: radial-gradient(closest-side, rgba(59, 101, 117, 0) 55%, rgba(59, 101, 117, 0.5) 75%, rgba(255, 47, 0, 0.55) 88%, var(--orange) 95%, var(--cream) 100%);
+    }
+    .head { position: relative; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+    .head h2 { margin: 0; font-size: clamp(32px, 4.4vw, 56px); line-height: 1; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; }
+    .head h2 em { font-style: normal; background: linear-gradient(90deg, var(--fire), var(--orange) 60%, var(--cream)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .head p { margin: 0; max-width: 360px; color: var(--muted); font-size: 15px; }
+    .tag { display: inline-block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--cream); border: 1px solid rgba(255, 220, 166, .35); border-radius: 999px; padding: 6px 12px; margin-bottom: 16px; }
+    .stage { position: relative; display: grid; grid-template-columns: 1fr 280px; gap: 40px; align-items: center; }
+    .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+    .list li { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid rgba(255, 255, 255, .12); font-weight: 600; }
+    .list li span { color: var(--orange); font-weight: 500; }
+    .list li.soon { color: var(--muted); border-bottom: 0; font-weight: 400; }
+    .note { position: relative; margin-top: 28px; font-size: 13px; color: var(--muted); }
+    .note code { color: var(--cream); }
+    @media (max-width: 860px) { .wrap { padding: 0 16px; } .stage { grid-template-columns: 1fr; } }
+  </style>
+  <link rel="stylesheet" href="../../_nav/nav.css">
+  <script src="../../_nav/tree.js"></script>
+  <script src="../../_nav/nav.js" defer></script>
+</head>
+<body>
+
+  <!-- Варіант A: тема monolead як є -->
+  <section class="geo">
+    <div class="wrap">
+      <span class="tag">Варіант A · «Вогонь» · data-theme="monolead"</span>
+      <div class="head">
+        <h2>Top offers <em>by GEO</em></h2>
+        <p>Наведіть на мітку — назва країни. У лендінгу клік по мітці фільтруватиме офери під це GEO.</p>
+      </div>
+      <div class="stage">
+        <div class="globe" data-globe data-theme="monolead">
+          <canvas aria-hidden="true"></canvas>
+          <button class="globe__marker" data-lat="52.23" data-lon="21.01" aria-label="Польща">+</button>
+          <button class="globe__marker" data-lat="50.08" data-lon="14.44" aria-label="Чехія">+</button>
+          <button class="globe__marker" data-lat="48.15" data-lon="17.11" aria-label="Словаччина">+</button>
+          <button class="globe__marker" data-lat="47.5" data-lon="19.04" aria-label="Угорщина">+</button>
+          <button class="globe__marker" data-lat="44.43" data-lon="26.1" aria-label="Румунія">+</button>
+        </div>
+        <ul class="list">
+          <li>Польща <span>PL</span></li>
+          <li>Чехія <span>CZ</span></li>
+          <li>Словаччина <span>SK</span></li>
+          <li>Угорщина <span>HU</span></li>
+          <li>Румунія <span>RO</span></li>
+          <li class="soon">+ нові GEO — скоро</li>
+        </ul>
+      </div>
+      <p class="note">Палітра з Figma-прототипу: фон <code>#0c0c0c</code>, освітлений бік <code>#f27f24</code>, хмари <code>#ff2f00</code>, обідок і точки <code>#ffdca6</code>.</p>
+    </div>
+  </section>
+
+  <!-- Варіант B: той самий вогонь + бірюзовий акцент з хіро прототипу -->
+  <section class="geo geo--cool">
+    <div class="wrap">
+      <span class="tag">Варіант B · «Вогонь + бірюза» · data-settings</span>
+      <div class="head">
+        <h2>Top offers <em>by GEO</em></h2>
+        <p>Холодні «хмари» й обідок #3b6575 з хіро прототипу — контраст до помаранчевого серпа.</p>
+      </div>
+      <div class="stage">
+        <div class="globe" data-globe data-theme="monolead"
+             data-settings='{"cloud":"#3b6575","rim":"#7fb3c4","cloudTint":0.6,"lit":"#ff5a1f","dot":"#ffdca6","rimStrength":0.9}'>
+          <canvas aria-hidden="true"></canvas>
+          <button class="globe__marker" data-lat="52.23" data-lon="21.01" aria-label="Польща">+</button>
+          <button class="globe__marker" data-lat="50.08" data-lon="14.44" aria-label="Чехія">+</button>
+          <button class="globe__marker" data-lat="48.15" data-lon="17.11" aria-label="Словаччина">+</button>
+          <button class="globe__marker" data-lat="47.5" data-lon="19.04" aria-label="Угорщина">+</button>
+          <button class="globe__marker" data-lat="44.43" data-lon="26.1" aria-label="Румунія">+</button>
+        </div>
+        <ul class="list">
+          <li>Польща <span>PL</span></li>
+          <li>Чехія <span>CZ</span></li>
+          <li>Словаччина <span>SK</span></li>
+          <li>Угорщина <span>HU</span></li>
+          <li>Румунія <span>RO</span></li>
+          <li class="soon">+ нові GEO — скоро</li>
+        </ul>
+      </div>
+      <p class="note">Точні параметри можна докрутити в редакторі: «Пресет: Monolead» → повзунки → «Скопіювати HTML».</p>
+    </div>
+  </section>
+
+  <script src="assets/js/globe-land.js"></script>
+  <script src="assets/js/globe.js"></script>
+</body>
+</html>

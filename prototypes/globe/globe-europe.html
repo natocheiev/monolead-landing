@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="uk" data-root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Планета · Європа крупним планом</title>
+  <link rel="stylesheet" href="assets/css/globe.css">
+  <style>
+    /* Палітра сайту (Figma, кадр «5») */
+    :root { --bg: #0c0c0c; --fire: #ff2f00; --orange: #f27f24; --cream: #ffdca6; --teal: #3b6575; --muted: rgba(255,255,255,.55); }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: #fff; font: 16px/1.5 Inter, system-ui, -apple-system, sans-serif; }
+
+    /* Секція: планета на всю ширину, видно лише край кулі над Європою */
+    .geo-zoom { position: relative; height: min(100vh, 860px); min-height: 640px; overflow: hidden; background: var(--bg); }
+    .geo-zoom .globe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; max-width: none; aspect-ratio: auto; margin: 0;
+    }
+    /* Віньєтка: краї й низ тонуть у темряві — куля «виповзає» з неї. Над полотном, під мітками. */
+    .geo-zoom__vignette {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background:
+        linear-gradient(90deg, var(--bg) 0%, rgba(12,12,12,.85) 8%, rgba(12,12,12,0) 30%, rgba(12,12,12,0) 70%, rgba(12,12,12,.85) 92%, var(--bg) 100%),
+        linear-gradient(180deg, var(--bg) 0%, rgba(12,12,12,0) 20%, rgba(12,12,12,0) 58%, rgba(12,12,12,.9) 90%, var(--bg) 100%),
+        radial-gradient(120% 90% at 50% 45%, rgba(12,12,12,0) 45%, rgba(12,12,12,.7) 100%);
+    }
+    .geo-zoom .globe__marker { z-index: 2; }
+
+    .geo-zoom__text { position: absolute; z-index: 3; left: 50%; top: 56px; transform: translateX(-50%); width: min(1120px, calc(100% - 32px)); text-align: center; pointer-events: none; }
+    .geo-zoom__text .tag { display: inline-block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--cream); border: 1px solid rgba(255,220,166,.35); border-radius: 999px; padding: 6px 12px; margin-bottom: 16px; }
+    .geo-zoom__text h2 { margin: 0 0 12px; font-size: clamp(28px, 3.4vw, 48px); line-height: 1; font-weight: 800; letter-spacing: -.02em; text-transform: uppercase; }
+    .geo-zoom__text h2 em { display: block; font-style: normal; background: linear-gradient(90deg, var(--fire), var(--orange) 60%, var(--cream)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .geo-zoom__text p { margin: 0; color: var(--muted); font-size: 15px; }
+    .geo-zoom__list { position: absolute; z-index: 3; left: 50%; bottom: 48px; transform: translateX(-50%); width: min(720px, calc(100% - 32px)); display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .geo-zoom__list button {
+      font: 500 13px/1 Inter, system-ui, sans-serif; color: var(--cream); cursor: pointer;
+      border: 1px solid rgba(255,220,166,.3); border-radius: 999px; padding: 9px 14px; background: rgba(12,12,12,.6);
+      transition: background-color .25s, border-color .25s, color .25s, box-shadow .25s;
+    }
+    .geo-zoom__list button b { font-weight: 700; margin-right: 4px; color: var(--orange); transition: color .25s; }
+    .geo-zoom__list button:hover, .geo-zoom__list button:focus-visible {
+      outline: none; color: #0c0c0c; background: linear-gradient(90deg, var(--fire), var(--orange)); border-color: var(--cream);
+      box-shadow: 0 0 24px rgba(255,47,0,.55);
+    }
+    .geo-zoom__list button:hover b, .geo-zoom__list button:focus-visible b { color: #0c0c0c; }
+
+    .note { padding: 24px 48px 48px; color: var(--muted); font-size: 13px; }
+    .note code { color: var(--cream); }
+    @media (max-width: 860px) { .geo-zoom__text { top: 32px; } .geo-zoom__list { bottom: 24px; } .note { padding: 16px; } }
+  </style>
+  <link rel="stylesheet" href="../../_nav/nav.css">
+  <script src="../../_nav/tree.js"></script>
+  <script src="../../_nav/nav.js" defer></script>
+</head>
+<body>
+
+  <section class="geo-zoom" aria-label="GEO Monolead: Польща, Чехія, Словаччина, Угорщина, Румунія">
+    <!-- Варіант B, темніший; крупний план Європи. Ракурс — як у Figma (кадр 10053:12520): куля по центру під кадром (offsetX/offsetY), кадр повернуто на 29.9° проти годинникової (roll) -->
+    <div class="globe" data-globe data-theme="monolead"
+         data-settings='{"lit":"#c8401a","shade":"#060708","cloud":"#1d3640","rim":"#6fa3b5","dot":"#ffdca6",
+                         "dotOpacity":1.3,"dotSize":0.75,"dotSoftness":0,"dotJitter":0.25,"dotLift":0.015,"twinkle":0.35,
+                         "lightAngle":55,"lightFront":-0.3,"terminator":0.6,"softness":0.35,
+                         "cloudAmount":0.35,"cloudDetail":0.1,"cloudTint":0.55,"cloudScale":2.2,
+                         "rimStrength":0.85,"rimPower":3.2,
+                         "dotDensity":3,"countries":["PL","CZ","SK","HU","RO"],"countryStep":0.12,"highlightIdle":0,"hlColor":"#ff5a1f","borderColor":"#ffd2a0","highlightEase":5,
+                         "swayAmp":6,"swayTilt":2,"swayPeriod":16,
+                         "size":3.2,"offsetX":-0.079,"offsetY":-2.685,"roll":29.9,"startLon":-23,"tilt":3,"spinSpeed":0,
+                         "hoverRadius":0.07,"hoverDrag":0.05,"hoverPush":0,"hoverScatter":0.05,"hoverGlow":1.4,"hoverGrow":1.1,"hoverEase":2.2}'>
+      <canvas aria-hidden="true"></canvas>
+      <button class="globe__marker" data-lat="52.23" data-lon="21.01" data-country="PL" aria-label="Польща">+</button>
+      <button class="globe__marker" data-lat="50.08" data-lon="14.44" data-country="CZ" aria-label="Чехія">+</button>
+      <button class="globe__marker" data-lat="48.15" data-lon="17.11" data-country="SK" aria-label="Словаччина">+</button>
+      <button class="globe__marker" data-lat="47.5" data-lon="19.04" data-country="HU" aria-label="Угорщина">+</button>
+      <button class="globe__marker" data-lat="44.43" data-lon="26.1" data-country="RO" aria-label="Румунія">+</button>
+    </div>
+    <div class="geo-zoom__vignette"></div>
+
+    <div class="geo-zoom__text">
+      <h2>We create with the key players who <em>turn traffic into maximum conversion</em></h2>
+    </div>
+    <div class="geo-zoom__list" role="group" aria-label="Країни: наведіть, щоб підсвітити на карті">
+      <button type="button" data-globe-country="PL"><b>PL</b> Польща</button>
+      <button type="button" data-globe-country="CZ"><b>CZ</b> Чехія</button>
+      <button type="button" data-globe-country="SK"><b>SK</b> Словаччина</button>
+      <button type="button" data-globe-country="HU"><b>HU</b> Угорщина</button>
+      <button type="button" data-globe-country="RO"><b>RO</b> Румунія</button>
+    </div>
+  </section>
+
+  <p class="note">Основа — варіант B, темніший. Куля повільно погойдується (±6° за 16 с; вимикається, якщо в системі ввімкнено «менше руху»). Точки суші втричі густіші. Країни в спокої не виділені; при наведенні на країну внизу або на вогник у її справжніх кордонах проявляється щільний рій окремих точок (<code>#ff5a1f</code> → <code>#ffd2a0</code>), без обвідки й суцільної заливки. Кордони — Natural Earth 1:10m (public domain), <code>assets/js/globe-countries.js</code>. Під курсором точки м'яко збільшуються, як у референсі. Ракурс — як у Figma: куля по центру, кадр повернуто на ~30° (<code>roll</code>), заголовок угорі.</p>
+
+  <script src="assets/js/globe-land.js"></script>
+  <script src="assets/js/globe-countries.js"></script>
+  <script src="assets/js/globe.js"></script>
+</body>
+</html>

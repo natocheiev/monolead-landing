@@ -1,0 +1,201 @@
+/* Monolead — сайт за Figma-кадром «5» (node 9700:87). Ширина макета 1512px, desktop-first. */
+:root {
+  --bg: #0c0c0c;
+  --white: #fff;
+  --fire: #ff2f00;
+  --orange: #f27f24;
+  --cream: #ffdca6;
+  --line-soft: rgba(255, 255, 255, .4);
+  --inset: inset 0 1.188px 2.734px rgba(255, 255, 255, .35);
+  --f-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --f-ui: "Google Sans Flex", "Google Sans", Inter, system-ui, sans-serif;
+  --f-thin: Geologica, Inter, system-ui, sans-serif;
+  --f-text: Inter, system-ui, sans-serif;
+  --pad: 72px;
+  /* Помаранчеве «сяйво» по нижньому краю карток: еліпс з центром угорі блоку, колір — лише біля краю */
+  --glow: radial-gradient(ellipse 100% 100% at 50% 0%,
+    rgba(255, 47, 0, 0) 61.5%, rgba(255, 47, 0, .44) 76.9%, rgba(255, 47, 0, .7) 83.8%,
+    rgba(249, 87, 18, .85) 87.9%, #f27f24 92%, #f59644 94%, #f9ae65 96%, #fcc585 98%, #ffdca6 100%);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--white); font: 400 15px/1.4 var(--f-text); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+
+.page { position: relative; max-width: 1512px; margin: 0 auto; overflow-x: clip; padding-bottom: 160px; }
+.page > *:not(.dots) { position: relative; z-index: 1; }
+main > section { position: relative; }
+
+/* Фонові точки (Figma «Tods»): сітка 27px, крапка 3px #d9d9d9, прозорість шару 4%.
+   Шар лежить у потоці сторінки, тому прокручується разом із сайтом. */
+.dots {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .04;
+  background: radial-gradient(circle at 1.5px 1.5px, #d9d9d9 1.5px, transparent 1.6px) 0 0 / 27px 27px;
+}
+
+/* Текст з градієнтом (білий → помаранчевий → кремовий), як у Figma: картинка-градієнт поверх білого */
+.grad {
+  color: transparent; -webkit-background-clip: text; background-clip: text;
+  background-image: url("../img/text-gradient.webp"), linear-gradient(#fff, #fff);
+  background-repeat: no-repeat, repeat;
+  background-size: 108.36% 150.81%, auto;
+  background-position: 49.46% 98.1%, 0 0;
+}
+
+.display { font: 700 48px/52px var(--f-display); text-transform: uppercase; margin: 0; }
+
+/* Кнопка-контур */
+.pill {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 16px 24px;
+  border: .5px solid var(--white); border-radius: 100px;
+  font: 300 14px/16px var(--f-ui); letter-spacing: -.017em; white-space: nowrap;
+  transition: background-color .25s, color .25s;
+}
+.pill:hover { background: var(--white); color: var(--bg); }
+.pill:hover img { filter: invert(1); }
+.pill img { width: 24px; height: 24px; }
+
+/* ---------- Хедер ---------- */
+.header { display: flex; align-items: center; justify-content: space-between; padding: 24px var(--pad) 0; }
+.header__left { display: flex; align-items: center; gap: 72px; }
+.header__logo img { width: 48px; height: 48px; }
+.header__nav { display: flex; gap: 56px; }
+.header__nav a, .header__lang { font: 300 14px/16px var(--f-ui); letter-spacing: -.017em; opacity: 1; transition: opacity .2s; }
+.header__nav a:hover, .header__lang:hover { opacity: .6; }
+
+/* ---------- Хіро ---------- */
+.hero { height: 1100px; margin-top: -72px; }
+.hero__glow { position: absolute; left: -177.6px; top: 190.4px; width: 1884.2px; height: 885.6px; max-width: none; pointer-events: none; }
+.hero__inner { position: absolute; left: 50%; top: 236.5px; transform: translateX(-50%); width: 878px; display: flex; flex-direction: column; align-items: center; gap: 56px; }
+.hero__top { display: flex; flex-direction: column; align-items: center; gap: 24px; width: 100%; }
+.proof { display: flex; gap: 12px; align-items: flex-start; }
+.proof__faces { display: flex; }
+.proof__faces img { width: 40px; height: 40px; margin-right: -16px; }
+.proof__faces img:last-child { margin-right: 0; }
+.proof__rate { display: flex; flex-direction: column; gap: 4px; width: 140px; }
+.proof__stars { display: flex; }
+.proof__stars img { width: 20px; height: 20px; }
+.proof__rate p { margin: 0; font: 100 12px/16px var(--f-ui); letter-spacing: -.017em; }
+.hero h1 { margin: 0; width: 976px; font: 500 96px/100px var(--f-display); text-transform: uppercase; text-align: center; }
+.hero__lead { margin: 0; width: 714px; font: 100 14px/24px var(--f-thin); letter-spacing: -.017em; text-align: center; }
+
+/* ---------- Переваги ---------- */
+.adv { display: flex; align-items: center; justify-content: space-between; height: 512px; margin: 104px var(--pad) 0; }
+.adv__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 72px; }
+.adv__item { display: flex; align-items: flex-end; gap: 16px; font: 600 36px/normal var(--f-text); letter-spacing: -.017em; text-transform: uppercase; opacity: .3; cursor: default; transition: opacity .3s, font-size .3s; }
+.adv__item img { width: 48px; height: 48px; display: none; }
+.adv__item.is-on { opacity: 1; font-size: 40px; }
+.adv__item.is-on img { display: block; }
+.adv__media { position: relative; width: 448px; height: 914px; flex: none; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 56px; }
+.adv__media > img { border-radius: 28px; object-fit: cover; flex: none; }
+.adv__media .s { width: 392px; height: 532px; }
+.adv__media .l { width: 448px; height: 608px; }
+.adv__fade { position: absolute; left: 0; width: 448px; height: 97px; pointer-events: none; }
+.adv__fade--top { top: 0; }
+.adv__fade--bottom { bottom: 0; transform: scaleY(-1); }
+
+/* ---------- Для кого ---------- */
+.who { margin-top: 526.5px; }
+.who__head { display: flex; justify-content: flex-end; padding: 0 var(--pad); }
+.who__head .display { width: 790px; text-align: justify; text-indent: 1.6em; }
+.who__cards { margin-top: 72px; display: flex; flex-direction: column; }
+.card {
+  position: relative; height: 384px; padding: 24px var(--pad) 104px; border-radius: 24px; overflow: hidden;
+  background: var(--bg); box-shadow: var(--inset); display: flex; flex-direction: column; justify-content: space-between;
+}
+.card::before { content: ""; position: absolute; left: 0; width: 100%; height: 384px; background: var(--glow); pointer-events: none; }
+.card--1 { margin-bottom: -40px; }
+.card--1::before { bottom: -.5px; }
+.card--2 { margin-bottom: -256px; }
+.card--2::before, .card--3::before { top: 113px; }
+.card > * { position: relative; }
+.card__title { margin: 0; font: 800 72.544px/normal var(--f-text); letter-spacing: -.017em; text-transform: uppercase; }
+.card--2 .card__title { font-size: 159.144px; opacity: .05; }
+.card--3 .card__title { font-size: 131.728px; opacity: .05; }
+.card__foot { display: flex; align-items: flex-end; justify-content: space-between; }
+.card__foot > div { width: 520px; display: flex; gap: 8px; align-items: flex-end; }
+.card__foot p { margin: 0; font: 400 15px/1.4 var(--f-text); max-width: 400px; }
+.card__foot img { width: 24px; height: 24px; }
+.card--3 .card__foot { opacity: 0; }
+
+/* ---------- Топ-офери ---------- */
+.offers { margin-top: 155px; display: flex; flex-direction: column; align-items: center; gap: 104px; }
+.offers__head { width: 100%; display: flex; justify-content: space-between; padding: 0 var(--pad); white-space: nowrap; }
+.offers__head .t1 { background-position: 40.2% 22.12%, 0 0; background-size: 108.43% 151.69%, auto; }
+.offers__head .t3 { background-position: 55.04% 33.98%, 0 0; background-size: 108.45% 150.93%, auto; }
+.offers__note { position: absolute; left: 775px; top: 116px; width: 261px; margin: 0; font: 400 12px/1.4 var(--f-text); }
+.offers__row1 { position: relative; width: 100%; height: 605px; }
+.offers__row1 .offer { position: absolute; }
+.offers__row2 { display: flex; gap: 236px; align-items: center; }
+.offers__row3 { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 var(--pad); }
+
+.offer { display: flex; flex-direction: column; gap: 12px; }
+.offer--s { width: 257px; } .offer--m { width: 319px; } .offer--l { width: 404px; }
+.offer__media { position: relative; border-radius: 24px; overflow: hidden; background: var(--bg); box-shadow: var(--inset); }
+.offer--s .offer__media { height: 256px; } .offer--m .offer__media { height: 384px; } .offer--l .offer__media { height: 440px; }
+.offer__media img { position: absolute; left: 50%; top: 50%; width: 102.23%; height: 112.5%; max-width: none; transform: translate(-50%, -50%) scale(1); object-fit: cover; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+.offer--s .offer__media img { height: 139%; }
+.offer--l .offer__media img { width: 115%; height: 140%; }
+.offer__media::after { content: ""; position: absolute; left: 50%; bottom: -48px; width: 125%; height: 179px; transform: translateX(-50%); background: var(--glow); pointer-events: none; }
+.offer--l .offer__media::after { width: 100%; }
+.offer__media::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; box-shadow: var(--inset); pointer-events: none; }
+.offer:hover .offer__media img { transform: translate(-50%, -50%) scale(1.05); }
+.offer__meta { margin: 0; font: 400 12px/16px var(--f-text); word-spacing: 2px; }
+.offer__name { display: flex; align-items: center; gap: 8px; font: 700 24px/32px var(--f-display); text-transform: uppercase; }
+.offer__name img { width: 24px; height: 24px; }
+
+/* ---------- Планета / GEO ---------- */
+.geo { margin-top: 366px; height: 756px; }
+.geo__title { position: absolute; z-index: 3; left: 50%; top: 0; transform: translateX(-50%); width: 1104px; text-align: center; pointer-events: none; }
+.geo__frame { position: absolute; inset: 0; overflow: hidden; }
+.geo .globe { position: absolute; left: 0; top: 0; width: 100%; height: auto; aspect-ratio: 1512 / 900; max-width: none; margin: 0; }
+.geo .globe__marker { z-index: 2; }
+.geo__vignette { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--bg) 0%, rgba(12,12,12,.85) 6%, rgba(12,12,12,0) 26%, rgba(12,12,12,0) 74%, rgba(12,12,12,.85) 94%, var(--bg) 100%),
+    linear-gradient(180deg, var(--bg) 0%, rgba(12,12,12,0) 22%); }
+.geo__fade { position: absolute; left: 0; right: 0; bottom: 0; height: 273px; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(12,12,12,0) 0%, var(--bg) 107%); }
+.geo__list { position: absolute; z-index: 3; left: 50%; bottom: -16px; transform: translateX(-50%); display: flex; gap: 104px; white-space: nowrap; }
+.geo__list button { font: 800 72.544px/normal var(--f-text); letter-spacing: -.017em; text-transform: uppercase; color: var(--white); transition: opacity .25s; }
+.geo__list button.is-on {
+  color: transparent; -webkit-background-clip: text; background-clip: text;
+  background-image: url("../img/text-gradient.webp"), linear-gradient(#fff, #fff);
+  background-repeat: no-repeat, repeat; background-size: 108.36% 150.81%, auto; background-position: 49.46% 98.1%, 0 0;
+}
+.geo__list:hover button:not(.is-on) { opacity: .5; }
+.globe--fallback { background: url("../img/planet.webp") 0 0 / 100% auto no-repeat; }
+
+/* ---------- Коментарі ---------- */
+.comments { margin-top: 281px; }
+.comments__title { width: 928px; margin-left: var(--pad); text-align: justify; text-indent: 1.4em; }
+.comments__row { margin-top: 72px; height: 504px; display: flex; gap: 16px; padding: 0 var(--pad); }
+.cm {
+  position: relative; flex: 1 1 0; min-width: 0; height: 100%; padding: 24px; border-radius: 36px; overflow: hidden;
+  background: rgba(0, 0, 0, .2); box-shadow: var(--inset); display: flex; flex-direction: column; gap: 8px;
+  transition: flex-basis .5s cubic-bezier(.2, .8, .2, 1), flex-grow .5s cubic-bezier(.2, .8, .2, 1);
+}
+.cm.is-open { flex: 0 0 664px; }
+.cm__top { display: flex; align-items: center; justify-content: center; }
+.cm.is-open .cm__top { justify-content: space-between; }
+.cm__num { display: none; font: 100 14px/16px var(--f-thin); letter-spacing: -.017em; }
+.cm.is-open .cm__num { display: block; }
+.cm__btn { position: relative; overflow: hidden; display: flex; padding: 8px; border: 1px solid var(--line-soft); border-radius: 1000px; transition: border-color .2s; }
+.cm__btn:hover { border-color: var(--white); }
+.cm__btn img { position: relative; width: 24px; height: 24px; }
+.cm__btn .x { display: none; }
+.cm.is-open .cm__btn .x { display: block; }
+.cm.is-open .cm__btn .plus { display: none; }
+.cm.is-open .cm__btn::before { content: ""; position: absolute; left: -17px; bottom: -15px; width: 97px; height: 83px; border-radius: 60px; background: var(--glow); }
+.cm__body { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; min-width: 0; }
+.cm__dot { width: 8px; height: 8px; }
+.cm__head { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.cm__head h3 { margin: 0; font: 700 20px/24px var(--f-display); letter-spacing: -.017em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cm__head .q { width: 16px; height: 15px; flex: none; display: none; }
+.cm__text, .cm .pill { display: none; }
+.cm.is-open .cm__head .q { display: block; }
+.cm.is-open .cm__text { display: block; margin: 0; font: 100 14px/16px var(--f-thin); letter-spacing: -.017em; }
+.cm.is-open .pill { display: inline-flex; align-self: flex-start; }

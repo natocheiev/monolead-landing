@@ -21,6 +21,8 @@
 | Артефакт | Що це |
 |---|---|
 | [CLAUDE.md](./CLAUDE.md) | Бриф продукту, правила репо (навігатор, імена), відкриті питання |
+| [prototypes/globe/globe.html](./prototypes/globe/globe.html) · [редактор](./prototypes/globe/globe-editor.html) | Інтерактивна WebGL-планета: демо і редактор параметрів |
+| [landing-plan.md](./landing-plan.md) | **План будови лендінгу**: секції, дані, SEO, аналітика, дизайн, етапи, блокери |
 | [index.html](./index.html) · [на Pages](https://natocheiev.github.io/monolead-landing/) | Стартова сторінка репо з навігатором |
 | [_nav/tree.js](./_nav/tree.js) | Дерево сторінок, реєстр сторінок для навігатора |
 | [_nav/nav.js](./_nav/nav.js) · [_nav/nav.css](./_nav/nav.css) | Скрипт і стилі бокового меню |

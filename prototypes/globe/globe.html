@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ro" data-root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Globe — demo</title>
+  <link rel="stylesheet" href="assets/css/globe.css">
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; }
+    .globe-section { min-height: 100vh; display: grid; place-items: center; padding: 40px 16px; box-sizing: border-box; }
+    .globe-section--light { background: #e6eaf6; }
+    .globe-section--dark { background: #000; }
+  </style>
+  <link rel="stylesheet" href="../../_nav/nav.css">
+  <script src="../../_nav/tree.js"></script>
+  <script src="../../_nav/nav.js" defer></script>
+</head>
+<body>
+  <section class="globe-section globe-section--light">
+    <div class="globe" data-globe data-theme="light" data-start-lon="-60">
+      <canvas aria-hidden="true"></canvas>
+      <button class="globe__marker" data-lat="40.7" data-lon="-74" aria-label="New York">+</button>
+      <button class="globe__marker" data-lat="-23.5" data-lon="-46.6" aria-label="São Paulo">+</button>
+      <button class="globe__marker" data-lat="51.5" data-lon="-0.1" aria-label="London">+</button>
+      <button class="globe__marker" data-lat="34" data-lon="-118.2" aria-label="Los Angeles">+</button>
+    </div>
+  </section>
+  <section class="globe-section globe-section--dark">
+    <div class="globe" data-globe data-theme="dark" data-start-lon="20">
+      <canvas aria-hidden="true"></canvas>
+      <button class="globe__marker" data-lat="40.42" data-lon="-3.7" aria-label="Madrid">+</button>
+      <button class="globe__marker" data-lat="30.04" data-lon="31.24" aria-label="Cairo">+</button>
+      <button class="globe__marker" data-lat="50.45" data-lon="30.52" aria-label="Kyiv">+</button>
+      <button class="globe__marker" data-lat="-1.29" data-lon="36.82" aria-label="Nairobi">+</button>
+    </div>
+  </section>
+  <script src="assets/js/globe-land.js"></script>
+  <script src="assets/js/globe.js"></script>
+</body>
+</html>

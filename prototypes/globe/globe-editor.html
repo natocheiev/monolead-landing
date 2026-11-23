@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="uk" data-root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Globe — редактор</title>
+  <link rel="stylesheet" href="assets/css/globe.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body { font: 13px/1.4 system-ui, -apple-system, sans-serif; color: #e8e8e8; background: #111; display: flex; }
+    .stage { flex: 1; display: grid; place-items: center; padding: 24px; transition: background-color .2s; min-width: 0; }
+    .stage .globe { max-width: min(760px, 100%); }
+    /* Широкий кадр — як секція «Європа крупним планом»: куля на всю сцену, видно лише край */
+    .stage { position: relative; overflow: hidden; }
+    .stage.is-wide { padding: 0; }
+    /* пропорції секції на сайті (~1512×860), щоб ракурс у редакторі збігався зі сторінкою */
+    .stage.is-wide .globe { width: 100%; max-width: none; aspect-ratio: 1512 / 860; max-height: 100vh; margin: 0; overflow: hidden; }
+    .stage .globe__marker { z-index: 2; }
+    .vignette { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .2s;
+      background:
+        linear-gradient(90deg, var(--vg) 0%, transparent 30%, transparent 70%, var(--vg) 100%),
+        linear-gradient(180deg, var(--vg) 0%, transparent 20%, transparent 58%, var(--vg) 100%),
+        radial-gradient(120% 90% at 50% 45%, transparent 45%, var(--vg) 100%); }
+    .chips { position: absolute; z-index: 3; left: 50%; bottom: 20px; transform: translateX(-50%); display: none; gap: 8px; flex-wrap: wrap; justify-content: center; width: calc(100% - 32px); }
+    .stage.is-wide .chips { display: flex; }
+    .chips button { font: 500 12px/1 system-ui, sans-serif; color: #ffdca6; border: 1px solid rgba(255,220,166,.3); border-radius: 999px; padding: 8px 12px; background: rgba(12,12,12,.6); cursor: pointer; }
+    .chips button:hover, .chips button:focus-visible { outline: none; color: #0c0c0c; background: linear-gradient(90deg, #ff2f00, #f27f24); }
+    .seg { display: flex; gap: 4px; }
+    .seg button { flex: 1; background: #26262a; color: #ccc; border: 1px solid #36363b; border-radius: 6px; padding: 4px 6px; cursor: pointer; font: 12px system-ui; }
+    .seg button.on { background: #ff6a1f; border-color: #ff6a1f; color: #fff; }
+    .panel { width: 340px; flex-shrink: 0; height: 100vh; overflow-y: auto; background: #18181b; border-left: 1px solid #2a2a2e; padding: 16px 16px 40px; }
+    h1 { font-size: 15px; margin: 0 0 4px; }
+    .hint { color: #8a8a90; margin: 0 0 14px; font-size: 12px; }
+    details { border-top: 1px solid #2a2a2e; padding: 10px 0; }
+    summary { cursor: pointer; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #b5b5bb; list-style: none; }
+    summary::before { content: '▸ '; } details[open] summary::before { content: '▾ '; }
+    .row { display: grid; grid-template-columns: 112px 1fr 70px; gap: 8px; align-items: center; margin-top: 8px; }
+    .row label { color: #c8c8cc; }
+    .row input[type=range] { width: 100%; accent-color: #ff7a2e; }
+    .row output, .row .num { font-variant-numeric: tabular-nums; color: #8a8a90; text-align: right; font-size: 12px; }
+    .row input[type=color] { width: 100%; height: 26px; border: 1px solid #333; border-radius: 6px; background: none; padding: 0 2px; cursor: pointer; }
+    .row input[type=text] { width: 100%; background: #0f0f11; border: 1px solid #333; border-radius: 6px; color: #ddd; padding: 4px 6px; font: 12px ui-monospace, monospace; }
+    .btns { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    button.b { background: #26262a; color: #eee; border: 1px solid #36363b; border-radius: 7px; padding: 6px 10px; cursor: pointer; font: inherit; }
+    button.b:hover { background: #303035; }
+    button.b:disabled { opacity: .35; cursor: default; background: #26262a; }
+    .history { align-items: center; }
+    .hist-count { color: #6f6f75; font-size: 11px; margin-left: auto; font-variant-numeric: tabular-nums; }
+    button.b.primary { background: #ff6a1f; border-color: #ff6a1f; color: #fff; }
+    .mk { display: grid; grid-template-columns: 1fr 54px 54px 40px 22px; gap: 4px; margin-top: 6px; }
+    .mk input { width: 100%; background: #0f0f11; border: 1px solid #333; border-radius: 6px; color: #ddd; padding: 4px 6px; font: 12px system-ui; }
+    .mk button { background: none; border: 0; color: #888; cursor: pointer; font-size: 16px; }
+    textarea { width: 100%; height: 150px; margin-top: 8px; background: #0f0f11; color: #cfcfcf; border: 1px solid #333; border-radius: 8px; padding: 8px; font: 11px/1.45 ui-monospace, monospace; resize: vertical; }
+    .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: #ff6a1f; color: #fff; padding: 8px 14px; border-radius: 8px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+    .toast.on { opacity: 1; }
+    @media (max-width: 760px) {
+      body { flex-direction: column; height: auto; }
+      .stage { min-height: 70vh; }
+      .panel { width: 100%; height: auto; border-left: 0; border-top: 1px solid #2a2a2e; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../_nav/nav.css">
+  <script src="../../_nav/tree.js"></script>
+  <script src="../../_nav/nav.js" defer></script>
+</head>
+<body>
+  <main class="stage" id="stage">
+    <div class="globe" id="globe" data-globe data-theme="dark">
+      <canvas aria-hidden="true"></canvas>
+    </div>
+    <div class="vignette" id="vignette"></div>
+    <div class="chips" id="chips" role="group" aria-label="Країни: наведіть, щоб підсвітити"></div>
+  </main>
+
+  <aside class="panel">
+    <h1>Редактор планети</h1>
+    <p class="hint">Зміни видно одразу й зберігаються в цьому браузері. Планету можна крутити мишкою.</p>
+
+    <div class="btns">
+      <button class="b" data-preset="light">Пресет: світлий</button>
+      <button class="b" data-preset="dark">Пресет: темний</button>
+      <button class="b" data-preset="monolead">Пресет: Monolead</button>
+      <button class="b" data-preset="europe">Пресет: Європа крупним планом</button>
+    </div>
+    <div class="btns history">
+      <button class="b" id="undo" title="Крок назад (⌘Z / Ctrl+Z)">↶ Назад</button>
+      <button class="b" id="redo" title="Крок вперед (⇧⌘Z / Ctrl+Y)">↷ Вперед</button>
+      <button class="b" id="reset" title="Повернути початковий варіант. Це теж можна скасувати кроком назад">⟲ Початковий варіант</button>
+      <span class="hist-count" id="histCount"></span>
+    </div>
+
+    <div id="groups"></div>
+
+    <details open>
+      <summary>Мітки «+»</summary>
+      <p class="hint" style="margin:8px 0 0">Назва · широта · довгота · код країни (PL, CZ… — тоді наведення на мітку підсвічує країну). Shift + клік по планеті додає мітку в цю точку.</p>
+      <div id="markers"></div>
+      <div class="btns"><button class="b" id="addMarker">+ Додати мітку</button></div>
+    </details>
+
+    <details open>
+      <summary>Експорт</summary>
+      <p class="hint" style="margin:8px 0 0">Готовий HTML для сторінки. Підключи globe.css, globe-land.js, globe-countries.js і globe.js.</p>
+      <textarea id="out" readonly></textarea>
+      <div class="btns">
+        <button class="b primary" id="copyHtml">Скопіювати HTML</button>
+        <button class="b" id="copyJson">Скопіювати налаштування</button>
+        <button class="b" id="importJson">Вставити налаштування</button>
+      </div>
+    </details>
+  </aside>
+  <div class="toast" id="toast"></div>
+
+  <script src="assets/js/globe-land.js"></script>
+  <script src="assets/js/globe-countries.js"></script>
+  <script src="assets/js/globe.js"></script>
+  <script>
+  // Після DOMContentLoaded — коли globe.js уже створив планету.
+  document.addEventListener('DOMContentLoaded', function () {
+    var STORE = 'globe-editor-v1';
+    var globeEl = document.getElementById('globe');
+    var stage = document.getElementById('stage');
+    var api = globeEl.globe;
+    // віньєтка й чипи — усередині кадру планети, щоб збігатися з його межами
+    globeEl.appendChild(document.getElementById('vignette'));
+    globeEl.appendChild(document.getElementById('chips'));
+    if (!api) { document.getElementById('groups').textContent = 'WebGL2 недоступний у цьому браузері.'; return; }
+
+    // Знімок пресетів до будь-яких змін.
+    var PRESETS = {
+      dark: Object.assign({}, api.settings, { pageBg: '#000000', frame: 'square', vignette: 0 }),
+      light: null
+    };
+    // Ключі лише редактора — у планету й експорт data-settings не йдуть.
+    var EDITOR_KEYS = ['pageBg', 'frame', 'vignette'];
+    var GROUPS = [
+      ['Кольори', [
+        ['pageBg', 'Фон сторінки', 'color'],
+        ['lit', 'Світла сторона', 'color'],
+        ['shade', 'Тіньова сторона', 'color'],
+        ['cloud', 'Хмари', 'color'],
+        ['rim', 'Обідок', 'color'],
+        ['dot', 'Точки', 'color']
+      ]],
+      ['Розмір і кадр', [
+        ['frame', 'Кадр', 'choice', [['square', 'Квадрат'], ['wide', 'Широкий']]],
+        ['size', 'Розмір', 0.3, 5, 0.01],
+        ['offsetX', 'Центр ←→', -2, 2, 0.005],
+        ['offsetY', 'Центр ↑↓', -4, 2, 0.005],
+        ['roll', 'Поворот кадру, °', -180, 180, 0.1],
+        ['vignette', 'Віньєтка країв', 0, 1, 0.01]
+      ]],
+      ['Ракурс і рух', [
+        ['startLon', 'Довгота центру', -180, 180, 1],
+        ['tilt', 'Нахил, °', -60, 60, 1],
+        ['spinSpeed', 'Швидкість обертання', -0.6, 0.6, 0.01],
+        ['swayAmp', 'Погойдування, °', 0, 20, 0.5],
+        ['swayTilt', 'Гойдання вгору-вниз, °', 0, 10, 0.5],
+        ['swayPeriod', 'Період гойдання, с', 4, 40, 1]
+      ]],
+      ['Світло', [
+        ['lightAngle', 'Напрям, °', 0, 360, 1],
+        ['lightFront', 'Фронтальність', -1, 2, 0.01],
+        ['terminator', 'Межа тіні', 0, 1, 0.01],
+        ['softness', 'М’якість межі', 0.02, 1.5, 0.01]
+      ]],
+      ['Хмари / шум', [
+        ['cloudScale', 'Масштаб', 0.3, 6, 0.05],
+        ['cloudAmount', 'Вплив на світло', 0, 1.5, 0.01],
+        ['cloudDetail', 'Дрібна деталь', 0, 1, 0.01],
+        ['cloudTint', 'Відтінок хмар', 0, 1, 0.01],
+        ['cloudSpeed', 'Швидкість', 0, 10, 0.1]
+      ]],
+      ['Обідок', [
+        ['rimStrength', 'Сила', 0, 2, 0.01],
+        ['rimPower', 'Ширина (менше = ширше)', 0.5, 8, 0.1]
+      ]],
+      ['Точки континентів', [
+        ['dotDensity', 'Густота (×)', 1, 5, 1],
+        ['dotOpacity', 'Яскравість', 0, 2, 0.01],
+        ['dotSoftness', 'Розмиття країв', 0, 1, 0.01],
+        ['dotSize', 'Розмір', 0.3, 3, 0.01],
+        ['dotLift', 'Пил над поверхнею', 0, 0.15, 0.001],
+        ['dotJitter', 'Розкид, °', 0, 3, 0.05],
+        ['twinkle', 'Мерехтіння', 0, 1, 0.01]
+      ]],
+      ['Наведення мишки', [
+        ['hoverRadius', 'Зона впливу', 0.03, 0.8, 0.01],
+        ['hoverDrag', 'Тягнуться за мишкою', 0, 0.5, 0.005],
+        ['hoverPush', 'Розступаються', -0.2, 0.2, 0.005],
+        ['hoverScatter', 'Розліт при русі', 0, 2, 0.01],
+        ['hoverGlow', 'Підсвітка', 0, 3, 0.05],
+        ['hoverGrow', 'Лінза (збільшення)', 0, 3, 0.05],
+        ['hoverEase', 'Пружність повернення', 0.5, 15, 0.1]
+      ]],
+      ['Країни при наведенні', [
+        ['countries', 'Країни (коди)', 'list'],
+        ['hlColor', 'Колір рою', 'color'],
+        ['borderColor', 'Відблиск рою', 'color'],
+        ['countryStep', 'Щільність (менше = густіше)', 0.06, 0.4, 0.01],
+        ['highlightEase', 'Швидкість появи', 1, 15, 0.5],
+        ['highlightIdle', 'Видно в спокої', 0, 1, 0.01]
+      ]]
+    ];
+
+    var saved = load();
+    var state = saved ? Object.assign({}, PRESETS.dark, saved) : Object.assign({}, PRESETS.dark, { markers: defaultMarkers() });
+    // Світлий пресет: беремо з тих самих дефолтів у globe.js через тимчасовий елемент.
+    PRESETS.light = Object.assign({}, PRESETS.dark, {
+      lit: '#f5f7ff', shade: '#78a3fa', cloud: '#d9e6ff', rim: '#ffffff', dot: '#ffffff', dotOpacity: 0.85, pageBg: '#e6eaf6'
+    });
+    // Пресет у палітрі сайту Monolead (= THEMES.monolead у globe.js) + мітки на 5 GEO мережі.
+    PRESETS.monolead = Object.assign({}, PRESETS.dark, {
+      lit: '#f27f24', shade: '#0c0c0c', cloud: '#ff2f00', rim: '#ffdca6', dot: '#ffdca6',
+      dotOpacity: 0.9, twinkle: 0.4, lightAngle: 150, lightFront: 0.1, terminator: 0.5, softness: 0.55,
+      cloudAmount: 0.4, cloudDetail: 0.12, cloudTint: 0.45, rimStrength: 0.75, rimPower: 2.2,
+      spinSpeed: 0.08, tilt: 30, startLon: 18, hoverGlow: 1.1,
+      pageBg: '#0c0c0c', theme: 'monolead',
+      markers: [
+        { label: 'Польща', lat: 52.23, lon: 21.01 },
+        { label: 'Чехія', lat: 50.08, lon: 14.44 },
+        { label: 'Словаччина', lat: 48.15, lon: 17.11 },
+        { label: 'Угорщина', lat: 47.5, lon: 19.04 },
+        { label: 'Румунія', lat: 44.43, lon: 26.1 }
+      ]
+    });
+
+    // = globe-europe.html: крупний план Європи, куля по центру під кадром, кадр повернуто на 29.9°.
+    PRESETS.europe = Object.assign({}, PRESETS.dark, {
+      lit: '#c8401a', shade: '#060708', cloud: '#1d3640', rim: '#6fa3b5', dot: '#ffdca6',
+      dotOpacity: 1.3, dotSize: 0.75, dotSoftness: 0, dotJitter: 0.25, dotLift: 0.015, twinkle: 0.35,
+      lightAngle: 55, lightFront: -0.3, terminator: 0.6, softness: 0.35,
+      cloudAmount: 0.35, cloudDetail: 0.1, cloudTint: 0.55, cloudScale: 2.2, rimStrength: 0.85, rimPower: 3.2,
+      dotDensity: 3, countries: ['PL', 'CZ', 'SK', 'HU', 'RO'], countryStep: 0.12, highlightIdle: 0,
+      hlColor: '#ff5a1f', borderColor: '#ffd2a0', highlightEase: 5,
+      swayAmp: 6, swayTilt: 2, swayPeriod: 16,
+      size: 3.2, offsetX: -0.079, offsetY: -2.685, roll: 29.9, startLon: -23, tilt: 3, spinSpeed: 0,
+      hoverRadius: 0.07, hoverDrag: 0.05, hoverPush: 0, hoverScatter: 0.05, hoverGlow: 1.4, hoverGrow: 1.1, hoverEase: 2.2,
+      pageBg: '#0c0c0c', theme: 'monolead', frame: 'wide', vignette: 1,
+      markers: [
+        { label: 'Польща', lat: 52.23, lon: 21.01, country: 'PL' },
+        { label: 'Чехія', lat: 50.08, lon: 14.44, country: 'CZ' },
+        { label: 'Словаччина', lat: 48.15, lon: 17.11, country: 'SK' },
+        { label: 'Угорщина', lat: 47.5, lon: 19.04, country: 'HU' },
+        { label: 'Румунія', lat: 44.43, lon: 26.1, country: 'RO' }
+      ]
+    });
+
+    function defaultMarkers() {
+      return [
+        { label: 'Kyiv', lat: 50.45, lon: 30.52 },
+        { label: 'Cairo', lat: 30.04, lon: 31.24 },
+        { label: 'Nairobi', lat: -1.29, lon: 36.82 },
+        { label: 'Madrid', lat: 40.42, lon: -3.7 }
+      ];
+    }
+    function load() { try { return JSON.parse(localStorage.getItem(STORE)); } catch (e) { return null; } }
+    function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
+
+    var inputs = {};
+    var groupsEl = document.getElementById('groups');
+    GROUPS.forEach(function (g, gi) {
+      var d = document.createElement('details');
+      if (/Розмір|Точки|Наведення|Країни/.test(g[0])) d.open = true;
+      d.innerHTML = '<summary>' + g[0] + '</summary>';
+      g[1].forEach(function (c) {
+        var row = document.createElement('div');
+        row.className = 'row';
+        var id = 'c_' + c[0];
+        if (c[2] === 'choice') {
+          row.innerHTML = '<label>' + c[1] + '</label><div class="seg" style="grid-column:span 2"></div>';
+          var seg = row.children[1];
+          c[3].forEach(function (op) {
+            var bt = document.createElement('button'); bt.type = 'button'; bt.textContent = op[1]; bt.dataset.v = op[0];
+            bt.addEventListener('click', function () { change(c[0], op[0]); inputs[c[0]](op[0]); });
+            seg.appendChild(bt);
+          });
+          inputs[c[0]] = function (v) { [].forEach.call(seg.children, function (bt) { bt.classList.toggle('on', bt.dataset.v === v); }); };
+        } else if (c[2] === 'list') {
+          row.innerHTML = '<label for="' + id + '">' + c[1] + '</label><input type="text" id="' + id + '" style="grid-column:span 2" placeholder="PL, CZ, SK, HU, RO">';
+          var li = row.children[1];
+          li.addEventListener('change', function () {
+            var v = li.value.toUpperCase().split(/[^A-Z]+/).filter(function (x) { return x && (window.GLOBE_COUNTRIES || {})[x]; }).slice(0, 8);
+            li.value = v.join(', '); change(c[0], v);
+          });
+          inputs[c[0]] = function (v) { li.value = (v || []).join(', '); };
+        } else if (c[2] === 'color') {
+          row.innerHTML = '<label for="' + id + '">' + c[1] + '</label><input type="color" id="' + id + '"><input type="text" class="num" aria-label="' + c[1] + ' hex">';
+          var col = row.children[1], txt = row.children[2];
+          col.addEventListener('input', function () { txt.value = col.value; change(c[0], col.value); });
+          txt.addEventListener('change', function () {
+            var v = txt.value.trim(); if (v[0] !== '#') v = '#' + v;
+            if (/^#[0-9a-f]{6}$/i.test(v)) { col.value = v; change(c[0], v); }
+          });
+          inputs[c[0]] = function (v) { col.value = v; txt.value = v; };
+        } else {
+          row.innerHTML = '<label for="' + id + '">' + c[1] + '</label><input type="range" id="' + id + '" min="' + c[2] + '" max="' + c[3] + '" step="' + c[4] + '"><output></output>';
+          var r = row.children[1], o = row.children[2];
+          r.addEventListener('input', function () { o.textContent = r.value; change(c[0], +r.value); });
+          r.addEventListener('dblclick', function () { var v = PRESETS.dark[c[0]]; r.value = v; o.textContent = v; change(c[0], v); });
+          inputs[c[0]] = function (v) { r.value = v; o.textContent = v; };
+        }
+        d.appendChild(row);
+      });
+      groupsEl.appendChild(d);
+    });
+
+    function change(k, v) {
+      state[k] = v;
+      if (EDITOR_KEYS.indexOf(k) >= 0) applyStage();
+      else { var o = {}; o[k] = v; api.set(o); }
+      if (k === 'countries') renderMarkers();
+      sync();
+    }
+
+    // Фон, кадр і віньєтка — властивості сцени редактора, не планети.
+    function applyStage() {
+      stage.style.backgroundColor = state.pageBg;
+      stage.style.setProperty('--vg', state.pageBg);
+      stage.classList.toggle('is-wide', state.frame === 'wide');
+      document.getElementById('vignette').style.opacity = state.vignette || 0;
+      window.dispatchEvent(new Event('resize'));
+    }
+    function applyAll() {
+      var s = {};
+      Object.keys(PRESETS.dark).forEach(function (k) {
+        if (EDITOR_KEYS.indexOf(k) < 0 && k in state && JSON.stringify(api.settings[k]) !== JSON.stringify(state[k])) s[k] = state[k];
+      });
+      api.set(s);
+      applyStage();
+      Object.keys(inputs).forEach(function (k) { if (k in state) inputs[k](state[k]); });
+      globeEl.dataset.theme = state.theme || (isLight(state.pageBg) ? 'light' : 'dark');
+      renderMarkers();
+      sync();
+    }
+    function isLight(h) { var n = parseInt(h.slice(1), 16); return ((n >> 16 & 255) * .3 + (n >> 8 & 255) * .59 + (n & 255) * .11) > 128; }
+
+    // Мітки
+    var mkEl = document.getElementById('markers');
+    function renderMarkers() {
+      [].forEach.call(globeEl.querySelectorAll('.globe__marker'), function (b) { b.remove(); });
+      mkEl.innerHTML = '';
+      state.markers.forEach(function (m, i) {
+        var b = document.createElement('button');
+        b.className = 'globe__marker'; b.textContent = '+';
+        b.dataset.lat = m.lat; b.dataset.lon = m.lon; b.setAttribute('aria-label', m.label);
+        if (m.country) { b.dataset.country = m.country; bindHover(b, m.country); }
+        globeEl.appendChild(b);
+
+        var row = document.createElement('div');
+        row.className = 'mk';
+        row.innerHTML = '<input value="" aria-label="Назва"><input type="number" step="0.01" aria-label="Широта"><input type="number" step="0.01" aria-label="Довгота"><input aria-label="Код країни" placeholder="код" maxlength="2"><button title="Видалити">×</button>';
+        var f = row.querySelectorAll('input');
+        f[0].value = m.label; f[1].value = m.lat; f[2].value = m.lon; f[3].value = m.country || '';
+        f[3].addEventListener('change', function () { m.country = f[3].value.trim().toUpperCase() || undefined; renderMarkers(); sync(); });
+        f[0].addEventListener('change', function () { m.label = f[0].value; renderMarkers(); sync(); });
+        f[1].addEventListener('change', function () { m.lat = +f[1].value; renderMarkers(); sync(); });
+        f[2].addEventListener('change', function () { m.lon = +f[2].value; renderMarkers(); sync(); });
+        row.querySelector('button').addEventListener('click', function () { state.markers.splice(i, 1); renderMarkers(); sync(); });
+        mkEl.appendChild(row);
+      });
+      api.refreshMarkers();
+      // Чипи країн під планетою (у широкому кадрі) — як на сторінці «Європа крупним планом».
+      var chips = document.getElementById('chips'); chips.innerHTML = '';
+      (state.countries || []).forEach(function (code) {
+        var c = (window.GLOBE_COUNTRIES || {})[code]; if (!c) return;
+        var bt = document.createElement('button'); bt.type = 'button';
+        bt.innerHTML = '<b>' + code + '</b> ' + (c.name || '');
+        bindHover(bt, code); chips.appendChild(bt);
+      });
+    }
+    function bindHover(el, code) {
+      var on = function () { api.highlight(code); }, off = function () { api.highlight(null); };
+      el.addEventListener('pointerenter', on); el.addEventListener('pointerleave', off);
+      el.addEventListener('focus', on); el.addEventListener('blur', off);
+    }
+    document.getElementById('addMarker').addEventListener('click', function () {
+      state.markers.push({ label: 'Нова мітка', lat: 0, lon: 0 }); renderMarkers(); sync();
+    });
+
+    // Shift + клік по планеті: зворотна проєкція екрана в широту/довготу.
+    globeEl.querySelector('canvas').addEventListener('click', function (e) {
+      if (!e.shiftKey) return;
+      var rect = globeEl.getBoundingClientRect(), R = Math.min(rect.width, rect.height) / 2 * state.size;
+      var ccx = rect.width / 2 * (1 + (+state.offsetX || 0)), ccy = rect.height / 2 * (1 - (+state.offsetY || 0));
+      var x = (e.clientX - rect.left - ccx) / R, y = -(e.clientY - rect.top - ccy) / R;
+      if (x * x + y * y > 1) return;
+      var z = Math.sqrt(1 - x * x - y * y);
+      var m = globeEl.globe.matrix();
+      // транспонована матриця = обернений поворот
+      var px = m[0] * x + m[1] * y + m[2] * z, py = m[3] * x + m[4] * y + m[5] * z, pz = m[6] * x + m[7] * y + m[8] * z;
+      var lat = Math.asin(Math.max(-1, Math.min(1, py))) * 180 / Math.PI, lon = Math.atan2(px, pz) * 180 / Math.PI;
+      state.markers.push({ label: 'Мітка ' + (state.markers.length + 1), lat: +lat.toFixed(2), lon: +lon.toFixed(2) });
+      renderMarkers(); sync();
+    });
+
+    // Експорт
+    var out = document.getElementById('out');
+    function settingsOnly() {
+      var s = {};
+      Object.keys(PRESETS.dark).forEach(function (k) { if (EDITOR_KEYS.indexOf(k) < 0) s[k] = state[k]; });
+      return s;
+    }
+    function html() {
+      var mk = state.markers.map(function (m) {
+        return '  <button class="globe__marker" data-lat="' + m.lat + '" data-lon="' + m.lon + '"' + (m.country ? ' data-country="' + m.country + '"' : '') + ' aria-label="' + m.label.replace(/"/g, '&quot;') + '">+</button>';
+      }).join('\n');
+      var g = '<div class="globe" data-globe data-theme="' + globeEl.dataset.theme + '"\n     data-settings=\'' + JSON.stringify(settingsOnly()) + '\'>\n  <canvas aria-hidden="true"></canvas>\n' + mk + (mk ? '\n' : '') + '</div>';
+      if (state.frame !== 'wide') return g;
+      return '<!-- Широкий кадр: контейнер з висотою (напр. .geo-zoom у globe-europe.html), .globe — position:absolute; inset:0; aspect-ratio:auto. Скрипти: globe-land.js, globe-countries.js, globe.js -->\n' + g;
+    }
+    function sync() {
+      out.value = html(); save();
+      if (!restoring) { clearTimeout(commitTimer); commitTimer = setTimeout(commit, 350); }
+    }
+
+    // Історія: кожна пауза в редагуванні (350 мс) = один крок. Перетяг повзунка — один крок, а не сотня.
+    var HSTORE = STORE + '-history', MAX = 150;
+    var hist = [], fut = [], committed = null, commitTimer, restoring = false;
+    try { var hs = JSON.parse(localStorage.getItem(HSTORE)); if (hs) { hist = hs.hist || []; fut = hs.fut || []; } } catch (e) {}
+    var undoBtn = document.getElementById('undo'), redoBtn = document.getElementById('redo'), countEl = document.getElementById('histCount');
+
+    function commit() {
+      clearTimeout(commitTimer);
+      var j = JSON.stringify(state);
+      if (j === committed) return;
+      if (committed !== null) { hist.push(committed); if (hist.length > MAX) hist.shift(); fut = []; }
+      committed = j;
+      saveHist();
+    }
+    function saveHist() {
+      undoBtn.disabled = !hist.length; redoBtn.disabled = !fut.length;
+      countEl.textContent = hist.length ? 'кроків: ' + hist.length : '';
+      try { localStorage.setItem(HSTORE, JSON.stringify({ hist: hist, fut: fut })); } catch (e) {}
+    }
+    function restore(j) {
+      restoring = true;
+      state = Object.assign({}, PRESETS.dark, JSON.parse(j));
+      applyAll();
+      restoring = false;
+      saveHist();
+    }
+    function undo() {
+      commit();
+      if (!hist.length) return;
+      fut.push(committed); committed = hist.pop(); restore(committed); say('Крок назад');
+    }
+    function redo() {
+      commit();
+      if (!fut.length) return;
+      hist.push(committed); committed = fut.pop(); restore(committed); say('Крок вперед');
+    }
+    undoBtn.addEventListener('click', undo);
+    redoBtn.addEventListener('click', redo);
+    document.addEventListener('keydown', function (e) {
+      if (!(e.metaKey || e.ctrlKey)) return;
+      var t = e.target;
+      if (t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && t.type !== 'range' && t.type !== 'color')) return;
+      var k = e.key.toLowerCase();
+      if (k === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+      else if ((k === 'z' && e.shiftKey) || k === 'y') { e.preventDefault(); redo(); }
+    });
+
+    var toast = document.getElementById('toast'), tt;
+    function say(t) { toast.textContent = t; toast.classList.add('on'); clearTimeout(tt); tt = setTimeout(function () { toast.classList.remove('on'); }, 1600); }
+    function copy(t, msg) {
+      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { say(msg); }, function () {
+        out.value = t; out.select(); document.execCommand('copy'); say(msg);
+      });
+    }
+    document.getElementById('copyHtml').addEventListener('click', function () { copy(html(), 'HTML скопійовано'); });
+    document.getElementById('copyJson').addEventListener('click', function () {
+      copy(JSON.stringify(Object.assign(settingsOnly(), { pageBg: state.pageBg, frame: state.frame, vignette: state.vignette, markers: state.markers }), null, 2), 'Налаштування скопійовано');
+    });
+    document.getElementById('importJson').addEventListener('click', function () {
+      var t = window.prompt('Встав JSON налаштувань:');
+      if (!t) return;
+      try { commit(); state = Object.assign({}, PRESETS.dark, { markers: [] }, JSON.parse(t)); applyAll(); commit(); say('Імпортовано'); }
+      catch (e) { say('Невірний JSON'); }
+    });
+
+    [].forEach.call(document.querySelectorAll('[data-preset]'), function (b) {
+      b.addEventListener('click', function () {
+        commit();
+        var pr = PRESETS[b.dataset.preset];
+        state = Object.assign({}, pr, { markers: pr.markers ? pr.markers.map(function (m) { return Object.assign({}, m); }) : state.markers });
+        applyAll(); commit();
+      });
+    });
+    document.getElementById('reset').addEventListener('click', function () {
+      commit();
+      state = JSON.parse(ORIGINAL); applyAll(); commit();
+      say('Початковий варіант. Повернути зміни — «Назад»');
+    });
+
+    var ORIGINAL = JSON.stringify(Object.assign({}, PRESETS.dark, { markers: defaultMarkers() }));
+    restoring = true; applyAll(); restoring = false;
+    committed = JSON.stringify(state);
+    saveHist();
+  });
+  </script>
+</body>
+</html>

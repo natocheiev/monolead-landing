@@ -1,0 +1,106 @@
+/* Globe — WebGL-планета (assets/js/globe.js) */
+.globe {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 760px;
+  margin-inline: auto;
+  touch-action: pan-y;
+  user-select: none;
+}
+.globe canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+.globe.is-dragging canvas { cursor: grabbing; }
+.globe.is-country-hover canvas { cursor: pointer; }
+
+.globe__marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 7px;
+  background: rgba(40, 40, 44, 0.82);
+  color: #fff;
+  font: 400 18px/1 system-ui, sans-serif;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  will-change: transform, opacity;
+  transition: background-color 0.2s;
+}
+.globe__marker:hover,
+.globe__marker:focus-visible { background: rgba(20, 20, 22, 0.95); outline: none; }
+.globe__marker::after {
+  content: attr(aria-label);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%) translateY(4px);
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #111;
+  color: #fff;
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.globe__marker:hover::after,
+.globe__marker:focus-visible::after { opacity: 1; transform: translateX(-50%); }
+
+.globe--fallback canvas { display: none; }
+
+.globe[data-theme="dark"] .globe__marker { background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.22); }
+.globe[data-theme="dark"] .globe__marker:hover,
+.globe[data-theme="dark"] .globe__marker:focus-visible { background: rgba(255, 255, 255, 0.28); }
+
+/* Тема Monolead: мітки-вогники в палітрі сайту (#0c0c0c / #ff2f00 / #f27f24 / #ffdca6) */
+/* Маленький вогник замість квадрата «+»: сусідні країни (PL, CZ, SK, HU) не налазять одна на одну.
+   Видима крапка ~12px, зона кліку 22px. transform мітки щокадру задає globe.js — тому анімація на ::before. */
+.globe[data-theme="monolead"] .globe__marker {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  font-size: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: radial-gradient(circle, #ffdca6 0 2.5px, #ff2f00 3.5px 6px, rgba(255, 47, 0, 0) 7px);
+  filter: drop-shadow(0 0 6px rgba(255, 47, 0, 0.9));
+}
+.globe[data-theme="monolead"] .globe__marker::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 90, 31, 0.9);
+  animation: globe-pulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+.globe[data-theme="monolead"] .globe__marker:hover,
+.globe[data-theme="monolead"] .globe__marker:focus-visible {
+  background: radial-gradient(circle, #ffffff 0 3px, #f27f24 4px 7.5px, rgba(242, 127, 36, 0) 8.5px);
+  filter: drop-shadow(0 0 10px rgba(242, 127, 36, 1));
+}
+@keyframes globe-pulse {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .globe[data-theme="monolead"] .globe__marker::before { animation: none; opacity: 0.5; }
+}
+.globe[data-theme="monolead"] .globe__marker::after {
+  background: #0c0c0c;
+  color: #ffdca6;
+  border: 1px solid rgba(255, 220, 166, 0.3);
+}
