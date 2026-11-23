@@ -79,6 +79,33 @@
 
     document.body.insertBefore(aside, document.body.firstChild);
     document.body.classList.add("has-repo-nav");
+
+    // Кнопка «сховати / показати» навігатор. Стан пам'ятається в цьому браузері для всіх сторінок репо.
+    var KEY = "repo-nav-hidden";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "repo-nav-toggle";
+    function apply(hidden) {
+      document.body.classList.toggle("repo-nav-hidden", hidden);
+      btn.setAttribute("aria-expanded", String(!hidden));
+      btn.setAttribute("aria-label", hidden ? "Показати навігатор" : "Сховати навігатор");
+      btn.title = (hidden ? "Показати навігатор" : "Сховати навігатор") + " (клавіша \\)";
+      btn.textContent = hidden ? "☰" : "«";
+      try { localStorage.setItem(KEY, hidden ? "1" : "0"); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    apply(saved === "1");
+    btn.addEventListener("click", function () {
+      apply(!document.body.classList.contains("repo-nav-hidden"));
+    });
+    document.addEventListener("keydown", function (e) {
+      var t = e.target;
+      if (e.key !== "\\" || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+      apply(!document.body.classList.contains("repo-nav-hidden"));
+    });
+    document.body.insertBefore(btn, aside.nextSibling);
   }
 
   if (document.readyState === "loading") {
