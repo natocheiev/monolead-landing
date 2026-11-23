@@ -230,7 +230,7 @@ main > section { position: relative; }
   background-image: url("../img/text-gradient.webp"), linear-gradient(#fff, #fff);
   background-repeat: no-repeat, repeat; background-size: 108.36% 150.81%, auto; background-position: 49.46% 98.1%, 0 0;
 }
-.geo__list:hover button:not(.is-on) { opacity: .5; }
+.geo__list:has(.is-on) button:not(.is-on) { opacity: .5; }
 .globe--fallback { background: url("../img/planet.webp") 0 0 / 100% auto no-repeat; }
 
 /* ---------- Коментарі ---------- */

@@ -1,13 +1,21 @@
 // Monolead — дрібні взаємодії сайту.
 (function () {
-  // GEO: підпис країни під курсором отримує градієнт; без наведення — PL, як у макеті
-  var geo = document.querySelectorAll('.geo__list button');
+  // GEO: у спокої нічого не підсвічено. Наведення на підпис країни або на її вогник на глобусі
+  // підсвічує лише цей підпис (градієнт) — а глобус сам проявляє цю країну щільним роєм точок.
+  var geo = [].slice.call(document.querySelectorAll('.geo__list button'));
+  function geoOn(code) { geo.forEach(function (x) { x.classList.toggle('is-on', x.dataset.globeCountry === code); }); }
   geo.forEach(function (b) {
-    b.addEventListener('pointerenter', function () { geo.forEach(function (x) { x.classList.toggle('is-on', x === b); }); });
-    b.addEventListener('focus', function () { geo.forEach(function (x) { x.classList.toggle('is-on', x === b); }); });
+    b.addEventListener('pointerenter', function () { geoOn(b.dataset.globeCountry); });
+    b.addEventListener('focus', function () { geoOn(b.dataset.globeCountry); });
+    b.addEventListener('pointerleave', function () { geoOn(null); });
+    b.addEventListener('blur', function () { geoOn(null); });
   });
-  var list = document.querySelector('.geo__list');
-  if (list) list.addEventListener('pointerleave', function () { geo.forEach(function (x, i) { x.classList.toggle('is-on', i === 0); }); });
+  document.querySelectorAll('.geo .globe__marker').forEach(function (m) {
+    m.addEventListener('pointerenter', function () { geoOn(m.dataset.country); });
+    m.addEventListener('focus', function () { geoOn(m.dataset.country); });
+    m.addEventListener('pointerleave', function () { geoOn(null); });
+    m.addEventListener('blur', function () { geoOn(null); });
+  });
 
   // Коментарі: «+» розгортає картку, «×» згортає (тоді всі картки рівні)
   var cards = document.querySelectorAll('.cm');
