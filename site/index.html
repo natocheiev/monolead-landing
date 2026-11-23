@@ -7,7 +7,7 @@
   <meta name="description" content="Monolead — CPA-мережа Nutra та E-com: топові офери з високим апрувом по GEO PL, RO, HU, CZ, SK.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geologica:wght@100&family=Google+Sans+Flex:wght@100;300&family=Inter:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geologica:wght@100&family=Google+Sans+Flex:wght@100;300&family=Inter:wght@300..900&display=swap">
   <link rel="stylesheet" href="../prototypes/globe/assets/css/globe.css">
   <link rel="stylesheet" href="assets/css/site.css">
   <link rel="stylesheet" href="../_nav/nav.css">
@@ -58,23 +58,75 @@
         </div>
       </section>
 
-      <!-- 2. Переваги -->
-      <section class="adv" id="advantages" aria-label="Переваги">
-        <ul class="adv__list">
-          <li class="adv__item">Промо кращого автора<img src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></li>
-          <li class="adv__item">Ми самі вийшли з баїнгу<img src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></li>
-          <li class="adv__item is-on">Офери з максимальним конвертом<img src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></li>
-          <li class="adv__item">Висока ставка<img src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></li>
-          <li class="adv__item">Підтримка 24/7<img src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></li>
-          <li class="adv__item">Гнучкі виплати<img src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></li>
-        </ul>
-        <div class="adv__media" aria-hidden="true">
-          <img class="s" src="assets/img/offer-jar.webp" alt="" width="392" height="532" loading="lazy">
-          <img class="l" src="assets/img/offer-jar.webp" alt="" width="448" height="608" loading="lazy">
-          <img class="s" src="assets/img/offer-jar.webp" alt="" width="392" height="532" loading="lazy">
-          <img class="adv__fade adv__fade--top" src="assets/img/fade.png" alt="" width="448" height="97">
-          <img class="adv__fade adv__fade--bottom" src="assets/img/fade.png" alt="" width="448" height="97">
+      <!-- 2. Переваги — Folio: список і стрічка фото їдуть назустріч і сходяться на активному рядку.
+           Скінченна прокрутка: секція «прилипає» до екрана на час 6 пунктів, далі сторінка гортається як звичайно. -->
+      <section class="folio" id="advantages" aria-label="Переваги" style="--n:6">
+        <div class="folio__stick">
+          <div class="folio__count" data-chrome><span class="folio__num">01</span><span class="sep">/</span>06<i></i></div>
+          <div class="folio__titles"><div class="folio__tstrip">
+            <div class="folio__row" data-i="0"><h3>Промо кращого автора</h3><img class="folio__arrow" src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></div>
+            <div class="folio__row" data-i="1"><h3>Ми самі вийшли з баїнгу</h3><img class="folio__arrow" src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></div>
+            <div class="folio__row" data-i="2"><h3>Офери з максимальним конвертом</h3><img class="folio__arrow" src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></div>
+            <div class="folio__row" data-i="3"><h3>Висока ставка</h3><img class="folio__arrow" src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></div>
+            <div class="folio__row" data-i="4"><h3>Підтримка 24/7</h3><img class="folio__arrow" src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></div>
+            <div class="folio__row" data-i="5"><h3>Гнучкі виплати</h3><img class="folio__arrow" src="assets/img/arrow-up-left.svg" alt="" width="48" height="48"></div>
+          </div></div>
+          <div class="folio__images"><div class="folio__istrip">
+            <div class="folio__slot" style="--i:0"><div class="folio__img" data-i="0"><img src="assets/img/offer-jar.webp" alt="" width="1034" height="1374"></div></div>
+            <div class="folio__slot" style="--i:1"><div class="folio__img" data-i="1"><img src="assets/img/offer-jar.webp" alt="" width="1034" height="1374"></div></div>
+            <div class="folio__slot" style="--i:2"><div class="folio__img" data-i="2"><img src="assets/img/offer-jar.webp" alt="" width="1034" height="1374"></div></div>
+            <div class="folio__slot" style="--i:3"><div class="folio__img" data-i="3"><img src="assets/img/offer-jar.webp" alt="" width="1034" height="1374"></div></div>
+            <div class="folio__slot" style="--i:4"><div class="folio__img" data-i="4"><img src="assets/img/offer-jar.webp" alt="" width="1034" height="1374"></div></div>
+            <div class="folio__slot" style="--i:5"><div class="folio__img" data-i="5"><img src="assets/img/offer-jar.webp" alt="" width="1034" height="1374"></div></div>
+          </div></div>
+          <div class="folio__ring" aria-hidden="true"><span>View</span></div>
+          <div class="folio__detail" hidden>
+            <div class="folio__scrim" data-scrim></div>
+            <div class="folio__dleft" data-no-wheel>
+              <button class="folio__back" type="button" data-reveal>← Назад</button>
+              <h2 class="folio__dtitle"></h2>
+              <p class="folio__dtext" data-reveal></p>
+              <p class="folio__dtag" data-reveal></p>
+              <a class="pill folio__cta" data-reveal href="https://t.me/Monolead_account" target="_blank" rel="noopener">Написати в Telegram <img src="assets/img/arrow-undo.svg" alt="" width="24" height="24"></a>
+            </div>
+            <div class="folio__dright">
+              <div class="folio__dimg"><img src="assets/img/offer-jar.webp" alt="" width="1034" height="1374"></div>
+              <button class="folio__close" type="button" aria-label="Закрити">✕</button>
+            </div>
+          </div>
         </div>
+        <script type="application/json" id="folio-data">[
+  {
+    "title": "Промо кращого автора",
+    "text": "Перевірені авторські промо, актуальні фото й свіжі сторіс, що конвертять.",
+    "tag": "Креативи"
+  },
+  {
+    "title": "Ми самі вийшли з баїнгу",
+    "text": "Розуміємо, наскільки баєру важливий конверт, тому гнучкі з креативами: селеби — після апруву менеджера.",
+    "tag": "Досвід"
+  },
+  {
+    "title": "Офери з максимальним конвертом",
+    "text": "Топові офери з найвищим ROI. Доводимо середнім апрувом топ-оферів по GEO та джерелах.",
+    "tag": "Офери"
+  },
+  {
+    "title": "Висока ставка",
+    "text": "Більше заробітку при менших ризиках.",
+    "tag": "Виплати"
+  },
+  {
+    "title": "Підтримка 24/7",
+    "text": "Оперативний сервіс та індивідуальні умови — менеджер на зв’язку на кожному етапі.",
+    "tag": "Сервіс"
+  },
+  {
+    "title": "Гнучкі виплати",
+    "text": "Виплати під ваш запит — домовляємося індивідуально з менеджером.",
+    "tag": "Виплати"
+  }
+]</script>
       </section>
 
       <!-- 3. З ким працюємо -->
