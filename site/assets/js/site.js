@@ -358,3 +358,38 @@
 
   requestAnimationFrame(tick);
 })();
+
+// ---------- Плашки аудиторій ----------
+(function () {
+  var cards = [].slice.call(document.querySelectorAll('.who__cards .card'));
+  if (!cards.length) return;
+  var titles = cards.map(function (c) { return c.querySelector('.card__title'); });
+
+  // 1. Назва на всю ширину плашки: міряємо при 100px і масштабуємо під ширину контенту
+  function fit() {
+    titles.forEach(function (t) {
+      var card = t.parentNode, cs = getComputedStyle(card);
+      var w = card.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      t.style.fontSize = '100px';
+      var tw = t.getBoundingClientRect().width;
+      if (tw) t.style.fontSize = (100 * w / tw).toFixed(2) + 'px';
+    });
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  if (document.fonts) document.fonts.ready.then(fit);
+
+  // 2. Активна лише одна плашка. Пауза після перемикання — щоб плашки, які їдуть під нерухомим курсором, не перехоплювали стан.
+  var lockUntil = 0;
+  function activate(c) {
+    if (c.classList.contains('is-on')) return;
+    cards.forEach(function (x) { x.classList.toggle('is-on', x === c); });
+    lockUntil = performance.now() + 450;
+  }
+  cards.forEach(function (c) {
+    c.addEventListener('pointerenter', function () { if (performance.now() > lockUntil) activate(c); });
+    c.addEventListener('pointermove', function () { if (performance.now() > lockUntil) activate(c); });
+    c.addEventListener('focus', function () { activate(c); });
+    c.addEventListener('click', function () { activate(c); });
+  });
+})();
