@@ -58,6 +58,21 @@ main > section { position: relative; }
 .pill:hover { background: var(--white); color: var(--bg); }
 .pill:hover img { filter: invert(1); }
 .pill img { width: 24px; height: 24px; }
+/* Скляна рамка (Figma 9700:1960): обведення 0.5px всередину, лінійний градієнт білий → rgba(153,153,153,.2) → білий.
+   Кут і позиції стопів перераховані з gradientTransform Figma (134.4°, 19% / 49.3% / 76.3%).
+   Переливання: кут градієнта повільно обертається по колу — світлі місця біжать рамкою. */
+@property --glass-a { syntax: "<angle>"; inherits: false; initial-value: 134.4deg; }
+.pill--glass { position: relative; border: 0; isolation: isolate; }
+.pill--glass::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: .5px; pointer-events: none;
+  background: linear-gradient(var(--glass-a), #fff 19%, rgba(153, 153, 153, .2) 49.3%, #fff 76.3%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: glass-spin 6s linear infinite;
+}
+@keyframes glass-spin { to { --glass-a: 494.4deg; } }
+.pill--glass:hover { background: rgba(255, 255, 255, .06); color: var(--white); }
+@media (prefers-reduced-motion: reduce) { .pill--glass::before { animation: none; } }
 
 /* ---------- Хедер ---------- */
 .header { display: flex; align-items: center; justify-content: space-between; padding: 24px var(--pad) 0; }
