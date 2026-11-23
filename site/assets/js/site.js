@@ -245,7 +245,8 @@
       h3s[i].style.fontSize = (L.fontMin + (L.fontMax - L.fontMin) * tType).toFixed(2) + 'dvh';
       var ta = Math.max(0, 1 - dist * 2.8);
       arrows[i].style.opacity = ta.toFixed(3);
-      arrows[i].style.transform = 'translateX(' + ((1 - ta) * -10).toFixed(2) + 'px)';
+      var off = Math.pow(1 - ta, 1.6) * 48;   // з правого нижнього кута рамки → на місце
+      arrows[i].style.transform = 'translate(' + off.toFixed(2) + 'px,' + off.toFixed(2) + 'px)';
     }
     var r = Math.round(pos);
     if (r !== active) { active = r; numEl.textContent = String(r + 1).padStart(2, '0'); }

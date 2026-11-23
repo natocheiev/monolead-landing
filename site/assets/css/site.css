@@ -105,7 +105,9 @@ main > section { position: relative; }
 .folio__tstrip, .folio__istrip { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
 .folio__row { display: flex; align-items: center; gap: 16px; cursor: pointer; color: #fff; }
 .folio__row h3 { margin: 0; font-family: var(--f-text); font-weight: 600; line-height: 1; letter-spacing: -.015em; text-transform: uppercase; white-space: nowrap; }
-.folio__arrow { width: 48px; height: 48px; flex: none; opacity: 0; }
+/* Стрілка ↖ залітає у свою рамку з правого нижнього кута */
+.folio__abox { width: 48px; height: 48px; flex: none; overflow: hidden; }
+.folio__arrow { width: 48px; height: 48px; opacity: 0; }
 .folio__images { position: absolute; right: var(--pad); top: 0; height: 100%; width: 448px;
   -webkit-mask-image: linear-gradient(transparent 0, #000 97px, #000 calc(100% - 97px), transparent 100%); mask-image: linear-gradient(transparent 0, #000 97px, #000 calc(100% - 97px), transparent 100%); }
 .folio__slot { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; }
@@ -134,7 +136,7 @@ main > section { position: relative; }
 @media (max-width: 767px) {
   .folio__titles { left: 0; width: 100%; top: 0; height: 50dvh; }
   .folio__row { justify-content: center; }
-  .folio__arrow { display: none; }
+  .folio__abox { display: none; }
   .folio__images { left: 0; right: 0; width: 100%; top: 50dvh; height: 50dvh; -webkit-mask-image: linear-gradient(transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%); mask-image: linear-gradient(transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%); }
   .folio__dleft { left: 0; right: 0; width: auto; padding: 32px 24px 0; justify-content: flex-start; overflow-y: auto; overscroll-behavior: contain; }
   .folio__dright { top: auto; left: 24px; right: 24px; bottom: 24px; height: 40dvh; aspect-ratio: auto; }
